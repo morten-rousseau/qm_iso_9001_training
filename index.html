@@ -1,0 +1,2279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ML!PA, ISO 9001 Training</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#1B3FA0;--red:#E8192C;--blue-mid:#2E52C2;
+  --blue-light:#E8EDF8;--blue-pale:#F0F3FC;--red-light:#FDEAEA;
+  --gray:#F5F6F7;--gray-mid:#E0E2E6;--text:#111827;
+  --text-mid:#374151;--text-soft:#6B7280;--green:#16A34A;
+  --green-light:#F0FDF4;--green-mid:#166534;--amber:#D97706;
+  --amber-light:#FFFBEB;--teal:#0F766E;
+  --border:#E5E7EB;--white:#FFFFFF;--radius:10px;--radius-lg:14px;
+}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;color:var(--text);background:var(--gray);line-height:1.7;font-size:15px;letter-spacing:-.01em}
+h1,h2,h3,h4,.logo{font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;letter-spacing:-.02em}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+.nav{background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:200;box-shadow:0 1px 0 var(--border)}
+.logo{font-size:20px;font-weight:700;display:flex;align-items:baseline;gap:2px;cursor:pointer}
+.logo-img{height:32px;width:auto;display:block}
+.logo .ml{color:var(--blue)}.logo .ex{color:var(--red)}.logo .pa{color:var(--blue)}
+.logo-sub{font-size:11px;font-weight:400;color:var(--text-soft);margin-left:8px;letter-spacing:.05em;text-transform:uppercase}
+.nav-right{display:flex;align-items:center;gap:12px}
+.progress-nav{font-size:12px;font-weight:600;color:var(--text-soft);display:flex;align-items:center;gap:6px}
+.progress-nav-bar{width:80px;height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.progress-nav-fill{height:100%;background:var(--green);border-radius:2px;transition:width .4s ease}
+.lang-pill{display:flex;border:1px solid var(--border);border-radius:20px;overflow:hidden}
+.lang-pill button{font-size:12px;font-weight:500;padding:4px 12px;border:none;background:transparent;cursor:pointer;color:var(--text-soft);transition:all .15s}
+.lang-pill button.active{background:var(--blue);color:var(--white)}
+.menu-btn{display:none;align-items:center;justify-content:center;width:38px;height:38px;margin-right:4px;border:1px solid var(--border);border-radius:8px;background:var(--white);color:var(--text-mid);font-size:18px;line-height:1;cursor:pointer;flex-shrink:0}
+.menu-btn:hover{background:var(--gray)}
+.nav-overlay{display:none}
+.shell{display:grid;grid-template-columns:256px 1fr;min-height:calc(100vh - 56px);max-width:1280px;margin:0 auto}
+.sidebar{background:var(--white);border-right:1px solid var(--border);padding:1rem 0;position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+.progress-box{margin:.75rem 1rem 1rem;background:var(--blue-pale);border:1px solid var(--blue-light);border-radius:var(--radius);padding:.85rem 1rem}
+.progress-box-label{font-size:11px;font-weight:600;color:var(--blue-mid);margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.05em}
+.progress-bar-full{height:6px;background:var(--border);border-radius:3px;overflow:hidden;margin-bottom:.4rem}
+.progress-bar-fill{height:100%;background:var(--blue);border-radius:3px;transition:width .4s}
+.progress-pct{font-size:12px;font-weight:700;color:var(--blue)}
+.sidebar-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-soft);padding:.75rem 1.25rem .3rem;margin-top:.25rem}
+.nav-item{display:flex;align-items:center;gap:9px;padding:.5rem 1.25rem;cursor:pointer;border-left:3px solid transparent;transition:all .12s;color:var(--text-mid);font-size:13.5px;font-weight:500;user-select:none;letter-spacing:-.01em;overflow:hidden}
+.nav-item:hover{background:var(--gray);color:var(--text)}
+.nav-item.active{border-left-color:var(--blue);background:var(--blue-pale);color:var(--blue)}
+.nav-item .nav-icon{font-size:15px;width:20px;text-align:center;flex-shrink:0}
+.nav-item .nav-label{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.nav-item .check{margin-left:auto;font-size:13px;opacity:0;transition:opacity .3s;flex-shrink:0}
+.nav-item .check.done{opacity:1;color:var(--green)}
+.nav-item .nav-badge{margin-left:auto;font-size:10px;font-weight:600;padding:1px 7px;border-radius:20px;background:var(--gray);color:var(--text-soft);white-space:nowrap;flex-shrink:0}
+.nav-item.active .nav-badge{background:var(--blue-light);color:var(--blue-mid)}
+.main{padding:2.5rem 3rem 3rem;max-width:840px}
+.content-section{display:none}.content-section.active{display:block}
+
+/* TEAM PICKER */
+.hero-banner{background:linear-gradient(145deg,#0F2878 0%,#1B3FA0 50%,#2E52C2 100%);border-radius:var(--radius-lg);padding:2.75rem 2.5rem 2.5rem;margin-bottom:1.75rem;position:relative;overflow:hidden}
+.hero-banner::before{content:"";position:absolute;right:-60px;bottom:-60px;width:320px;height:320px;background:rgba(255,255,255,.03);border-radius:50%;border:1px solid rgba(255,255,255,.06)}
+.hero-banner::after{content:"";position:absolute;right:60px;top:-40px;width:180px;height:180px;background:rgba(255,255,255,.04);border-radius:50%}
+.hero-eyebrow{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:.75rem;display:flex;align-items:center;gap:6px}
+.hero-eyebrow::before{content:"";display:inline-block;width:16px;height:2px;background:rgba(255,255,255,.3);border-radius:1px}
+.hero-banner h1{font-size:clamp(22px,3vw,32px);font-weight:800;color:var(--white);line-height:1.2;margin-bottom:.85rem;position:relative;z-index:1;letter-spacing:-.03em}
+.hero-banner p{font-size:14px;color:rgba(255,255,255,.65);line-height:1.75;max-width:480px;position:relative;z-index:1}
+.team-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin-bottom:1.75rem}
+.team-tile{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem;cursor:pointer;transition:all .18s;display:flex;flex-direction:column;align-items:flex-start;gap:6px;min-height:72px}
+.team-tile:hover{border-color:var(--blue);box-shadow:0 6px 20px rgba(27,63,160,.1);transform:translateY(-2px)}
+.team-tile-icon{font-size:22px;line-height:1}
+.team-tile-name{font-size:12.5px;font-weight:700;color:var(--text);line-height:1.3;letter-spacing:-.01em}
+.team-checklist{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem}
+.team-checklist-header{display:flex;align-items:center;gap:12px;margin-bottom:1.25rem;padding-bottom:1rem;border-bottom:2px solid var(--blue-light)}
+.team-checklist-icon{font-size:28px}.team-checklist-title{font-size:17px;font-weight:700;color:var(--blue)}
+.checklist-section{margin-bottom:1rem}
+.checklist-section-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text-soft);margin-bottom:.5rem}
+.checklist-item{display:flex;align-items:center;gap:10px;padding:.55rem .75rem;border-radius:8px;background:var(--gray);margin-bottom:5px;cursor:pointer;transition:background .15s}
+.checklist-item:hover{background:var(--blue-pale)}
+.checklist-item-icon{font-size:15px;width:20px;text-align:center;flex-shrink:0}
+.checklist-item-label{font-size:13px;font-weight:600;color:var(--text);flex:1}
+.checklist-item-tag{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;white-space:nowrap}
+.tag-required{background:var(--blue-light);color:var(--blue-mid)}
+.tag-soon{background:var(--gray-mid);color:var(--text-soft)}
+.checklist-item-arrow{font-size:11px;color:var(--text-soft)}
+.checklist-back{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--blue);cursor:pointer;margin-bottom:1.5rem;padding:.45rem .85rem;border-radius:8px;background:var(--white);border:1.5px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.checklist-back:hover{background:var(--blue-light)}
+
+/* ARTICLE */
+.article-header{margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)}
+.article-eyebrow{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);margin-bottom:.5rem}
+.article-title{font-size:clamp(22px,3vw,30px);font-weight:800;color:var(--text);margin-bottom:.5rem;letter-spacing:-.03em;line-height:1.15}
+.article-sub{font-size:15px;color:var(--text-soft);line-height:1.65;font-weight:400}
+.article-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:.75rem}
+.meta-tag{font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;background:var(--blue-light);color:var(--blue-mid)}
+.article h3{font-size:15px;font-weight:700;color:var(--text);margin:2rem 0 .6rem;letter-spacing:-.01em}
+.article h4{font-size:13px;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:.05em;margin:1.25rem 0 .4rem}
+.article p{font-size:14.5px;color:var(--text-mid);line-height:1.85;margin-bottom:.9rem;text-align:justify}
+
+/* CALLOUTS */
+.callout{border-radius:var(--radius);padding:1rem 1.2rem;margin:1.25rem 0;font-size:13.5px;line-height:1.75;text-align:justify;border-left:4px solid transparent}
+.callout-title{font-weight:700;margin-bottom:.3rem;font-size:13px}
+.callout.blue{background:var(--blue-pale);border-left:4px solid var(--blue);color:var(--text-mid)}
+.callout.blue .callout-title{color:var(--blue)}
+.callout.orange{background:var(--amber-light);border-left:4px solid var(--amber);color:#78350F}
+.callout.orange .callout-title{color:var(--amber)}
+.callout.green{background:var(--green-light);border-left:4px solid var(--green);color:var(--text-mid)}
+.callout.green .callout-title{color:var(--green-mid)}
+
+/* SCENARIO CARDS, "why it matters" real examples */
+.scenario-cards{display:grid;gap:10px;margin:1rem 0}
+.scenario-card{background:var(--white);border:1px solid var(--border);border-left:4px solid var(--red);border-radius:var(--radius);padding:1.1rem 1.2rem;transition:box-shadow .15s}.scenario-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.06)}
+.scenario-card-situation{font-size:12px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.3rem}
+.scenario-card-body{font-size:13px;color:var(--text-mid);line-height:1.65;margin-bottom:.4rem;text-align:justify}
+.scenario-card-fix{font-size:12px;font-weight:600;color:var(--green-mid);padding:.35rem .6rem;background:var(--green-light);border-radius:6px;display:inline-block;margin-top:.2rem}
+.scenario-card-lesson{font-size:12px;color:var(--blue);background:var(--blue-pale);border-radius:6px;padding:.35rem .6rem;margin-top:.5rem;line-height:1.5}
+
+/* PDCA loop */
+.pdca{display:flex;align-items:center;justify-content:center;gap:0;margin:1.5rem 0;flex-wrap:nowrap}
+.pdca-cell{display:flex;flex-direction:column;align-items:center;text-align:center;padding:.9rem .75rem;border-radius:10px;flex:1;min-width:0;position:relative}
+.pdca-arrow{font-size:18px;color:var(--text-soft);flex-shrink:0;padding:0 2px;margin-top:-18px}
+.pdca-arrow-back{font-size:13px;color:var(--text-soft);flex-shrink:0;padding:0 2px;margin-top:-18px;transform:scaleY(-1);display:inline-block}
+.pdca-letter{font-size:26px;font-weight:800;color:var(--white);line-height:1;margin-bottom:4px}
+.pdca-word{font-size:11px;font-weight:700;color:rgba(255,255,255,.9);margin-bottom:5px;text-transform:uppercase;letter-spacing:.03em}
+.pdca-desc{font-size:11px;color:rgba(255,255,255,.7);line-height:1.5}
+.pdca-loop-wrap{width:100%;margin:1.5rem 0}
+.pdca-loop-top{display:flex;align-items:center;gap:4px;margin-bottom:0}
+.pdca-loop-bottom{display:flex;justify-content:space-between;padding:0 20px;margin-top:4px}
+.pdca-loop-label{font-size:10px;color:var(--text-soft);font-style:italic}
+
+/* LOOP EXAMPLE */
+.loop-example{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.1rem 1.25rem;margin:1rem 0}
+.loop-example-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--blue);margin-bottom:.6rem}
+.loop-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative}
+.loop-steps::after{content:"";position:absolute;top:20px;left:12%;right:12%;height:2px;background:var(--blue-light);z-index:0}
+.loop-step{text-align:center;position:relative;z-index:1;padding:.25rem .5rem}
+.loop-step-dot{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;margin:0 auto .4rem;border:2px solid var(--white);box-shadow:0 0 0 2px var(--blue-light)}
+.loop-step-label{font-size:11px;font-weight:700;color:var(--text);margin-bottom:2px;line-height:1.2}
+.loop-step-desc{font-size:10px;color:var(--text-soft);line-height:1.4}
+
+/* NC FLOW */
+.nc-flow-wrap{margin:1rem 0}
+.nc-flow{display:grid;grid-template-columns:repeat(6,1fr);gap:2px;background:var(--border);border-radius:var(--radius);overflow:hidden}
+.nc-step{background:var(--white);padding:.9rem .5rem;text-align:center;transition:background .12s}.nc-step:hover{background:var(--blue-pale)}
+.nc-step-num{font-size:22px;font-weight:700;color:var(--blue);line-height:1}
+.nc-step-label{font-size:12px;font-weight:700;color:var(--text);margin:4px 0 3px;line-height:1.3}
+.nc-step-sub{font-size:10px;color:var(--text-soft);line-height:1.4}
+
+/* NC ROLES */
+.nc-roles{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:.75rem 0 1.25rem}
+.nc-role-card{border-radius:var(--radius);padding:.75rem 1rem;font-size:12px;line-height:1.6;border:1px solid}
+.nc-role-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.3rem}
+
+/* CONCEPT CARDS */
+.concept-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:1.25rem 0}
+.concept-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.1rem 1.15rem;transition:box-shadow .15s,border-color .15s}.concept-card:hover{border-color:var(--blue-light);box-shadow:0 4px 14px rgba(27,63,160,.07)}
+.concept-card-icon{font-size:24px;margin-bottom:.4rem}
+.concept-card-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:.3rem}
+.concept-card-body{font-size:12px;color:var(--text-soft);line-height:1.6}
+
+/* FOUR THINGS */
+.four-things{display:grid;gap:8px;margin:1.25rem 0}
+.four-thing{display:grid;grid-template-columns:40px 1fr;border-radius:var(--radius);overflow:hidden;border:1px solid var(--border)}
+.four-thing-num{background:var(--blue);color:var(--white);font-size:17px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.four-thing-body{background:var(--white);padding:.7rem 1rem}
+.four-thing-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:2px}
+.four-thing-desc{font-size:12px;color:var(--text-soft);line-height:1.5}
+
+/* STORY CARDS, compact accordion style */
+.story-card{border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--white);overflow:hidden;margin-bottom:10px}
+.story-card-header{padding:.8rem 1.1rem;display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none;transition:filter .12s}.story-card-header:hover{filter:brightness(.95)}
+.story-card-header.closed{background:var(--red)}
+.story-card-header.active-nc{background:var(--amber)}
+.story-card-header.neutral{background:var(--blue)}
+.story-card-title{font-size:13px;font-weight:700;color:var(--white);flex:1;line-height:1.3}
+.story-card-badge{font-size:10px;background:rgba(255,255,255,.2);color:var(--white);padding:2px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0}
+.story-status-tag{font-size:10px;font-weight:700;color:rgba(255,255,255,.8);flex-shrink:0}
+.story-chevron{font-size:11px;color:rgba(255,255,255,.7);transition:transform .2s;flex-shrink:0}
+.story-chevron.open{transform:rotate(180deg)}
+.story-body{display:none;padding:0}
+.story-body.open{display:block}
+.story-phase-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;border-bottom:1px solid var(--border)}
+.story-phase{padding:.75rem 1rem;font-size:12px;color:var(--text-mid);line-height:1.6}
+.story-phase:first-child{border-right:1px solid var(--border)}
+.story-phase-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.35rem;color:var(--text-soft)}
+.story-phase.fix .story-phase-label{color:var(--green-mid)}
+.story-phase.amber-phase .story-phase-label{color:var(--amber)}
+.story-whys{background:var(--gray);padding:.75rem 1rem;border-bottom:1px solid var(--border)}
+.story-whys-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--amber);margin-bottom:.5rem}
+.why-chain{display:flex;flex-direction:column;gap:0}
+.why-item{display:flex;flex-direction:column;gap:3px;padding:.5rem .6rem;border-radius:6px;background:var(--white);border:1px solid var(--border);margin-bottom:4px}
+.why-item.root{background:var(--red-light);border-color:#FECACA}
+.why-question{display:flex;gap:8px;align-items:flex-start}
+.why-num{background:var(--amber);color:var(--white);font-size:9px;font-weight:700;padding:1px 5px;border-radius:3px;flex-shrink:0;margin-top:2px;white-space:nowrap}
+.why-num.root-num{background:var(--red)}
+.why-q-text{font-size:12px;font-weight:700;color:var(--text);line-height:1.5}
+.why-because{display:flex;gap:8px;align-items:flex-start;margin-top:3px;padding-left:4px}
+.why-because-label{font-size:9px;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:.04em;flex-shrink:0;padding-top:2px;white-space:nowrap}
+.why-because-text{font-size:12px;color:var(--text-mid);line-height:1.5;text-align:justify}
+.why-arrow{color:var(--border);font-size:13px;text-align:center;margin:2px 0 2px 20px}
+.story-lesson{padding:.7rem 1rem;background:var(--blue-pale)}
+.story-lesson-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--blue-mid);margin-bottom:.25rem}
+.story-lesson-text{font-size:12px;color:var(--text-mid);line-height:1.6}
+
+/* TABLES */
+.data-table{width:100%;border-collapse:collapse;font-size:13px;margin:1rem 0;border-radius:var(--radius);overflow:hidden;border:1px solid var(--border)}
+.data-table th{background:var(--blue);color:var(--white);padding:.6rem .8rem;text-align:left;font-weight:600;font-size:12px}
+.data-table td{padding:.6rem .8rem;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.6;color:var(--text-mid);font-size:13px}
+.data-table tr:nth-child(even) td{background:var(--gray)}
+.data-table tr:last-child td{border-bottom:none}
+.data-table td strong{color:var(--text);font-weight:600}
+
+/* CLAUSE TABLE with split */
+.clause-group-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:.6rem 1rem;display:flex;align-items:center;gap:8px}
+.clause-group-label.intro{background:#F4F5F7;color:var(--text-soft);border-bottom:1px solid var(--border)}
+.clause-group-label.operational{background:var(--blue-pale);color:var(--blue-mid);border-bottom:1px solid var(--blue-light)}
+.clause-group-label .clause-group-pill{font-size:10px;padding:1px 7px;border-radius:20px;font-weight:700}
+.clause-group-label.intro .clause-group-pill{background:var(--gray-mid);color:var(--text-soft)}
+.clause-group-label.operational .clause-group-pill{background:var(--blue-light);color:var(--blue-mid)}
+.clause-main-row{display:flex;align-items:center;gap:10px;padding:.65rem 1rem;border-bottom:1px solid var(--border);background:var(--white);transition:background .12s}
+.clause-main-row:last-child{border-bottom:none}
+.clause-main-row:hover{background:var(--gray)}
+.clause-num-badge{font-size:11px;font-weight:700;color:var(--text-soft);background:var(--gray);padding:2px 7px;border-radius:5px;flex-shrink:0;min-width:36px;text-align:center}
+.clause-num-badge.op{background:var(--blue-light);color:var(--blue-mid)}
+.clause-main-text{font-size:13px;font-weight:600;color:var(--text);flex:1}
+.clause-chevron{font-size:13px;color:var(--text-soft);margin-left:auto;flex-shrink:0;transition:transform .2s;display:inline-block}
+.clause-subs{border-top:1px solid var(--blue-light)}
+.clause-sub-row{display:flex;align-items:flex-start;gap:10px;padding:.5rem 1rem .5rem 2.5rem;border-bottom:1px solid var(--border);background:var(--blue-pale)}
+.clause-sub-row:last-child{border-bottom:none}
+.clause-sub-num{font-size:11px;font-weight:700;color:var(--blue-mid);min-width:32px;flex-shrink:0;padding-top:1px}
+.clause-sub-num.highlight{color:var(--red)}
+.clause-sub-text{font-size:12.5px;color:var(--text-mid);line-height:1.55}
+.clause-sub-text.highlight{color:var(--text);font-weight:600}
+
+/* FINDING CARDS */
+.finding-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:8px;margin:1rem 0}
+.finding-card{border-radius:var(--radius);padding:.85rem 1rem;border:1px solid}
+.finding-card-badge{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.3rem}
+.finding-card-desc{font-size:12px;line-height:1.5}
+
+/* DOC COST CARDS */
+.doc-cost-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:1rem 0}
+.doc-cost-card{background:var(--white);border:1px solid var(--border);border-top:3px solid var(--red);border-radius:var(--radius);padding:1.1rem 1.15rem;transition:box-shadow .15s}.doc-cost-card:hover{box-shadow:0 4px 14px rgba(0,0,0,.07)}
+.doc-cost-icon{font-size:22px;margin-bottom:.4rem}
+.doc-cost-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:.35rem}
+.doc-cost-story{font-size:12px;color:var(--text-mid);line-height:1.6;margin-bottom:.4rem}
+.doc-cost-impact{font-size:11px;font-weight:600;color:var(--red)}
+
+/* 8D */
+.eightd-grid{display:grid;gap:6px;margin:1rem 0}
+.eightd-item{display:grid;grid-template-columns:40px 1fr;border-radius:var(--radius);overflow:hidden;border:1px solid var(--border)}
+.eightd-d{background:var(--blue);color:var(--white);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:.5rem}
+.eightd-content{background:var(--white);padding:.55rem .85rem}
+.eightd-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px}
+.eightd-desc{font-size:12px;color:var(--text-soft);line-height:1.5}
+
+/* QUIZ TABLE */
+.quiz-table-wrap{border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin:1rem 0}
+.quiz-row{display:grid;grid-template-columns:1fr auto;align-items:center;padding:1rem 1.25rem;border-bottom:1px solid var(--border);gap:1.25rem;background:var(--white);transition:background .12s}.quiz-row:hover{background:var(--gray)}
+.quiz-row:last-child{border-bottom:none}
+.quiz-row:nth-child(even){background:var(--gray)}
+.quiz-row-left{}
+.quiz-row-name{font-size:14px;font-weight:700;color:var(--text);margin-bottom:2px}
+.quiz-row-who{font-size:11px;color:var(--text-soft)}
+.quiz-row-pass{font-size:11px;font-weight:600;color:var(--text-mid);margin-top:2px}
+.quiz-row-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0}
+.quiz-btn{display:inline-flex;align-items:center;gap:5px;background:var(--blue);color:var(--white);font-size:12px;font-weight:700;padding:7px 14px;border-radius:7px;text-decoration:none;cursor:pointer;white-space:nowrap;transition:opacity .15s}
+.quiz-btn:hover{opacity:.88}
+.quiz-btn.soon{background:var(--gray);color:var(--text-soft);cursor:default}
+.quiz-btn.soon:hover{opacity:1}
+.quiz-link-hint{font-size:10px;color:var(--text-soft);font-style:italic}
+
+.checklist-folder{display:flex;align-items:center;padding:.75rem 1rem;cursor:pointer;background:var(--white);border-bottom:1px solid var(--border);transition:background .12s}.checklist-folder:hover{background:var(--gray)}
+.folder-items{display:block}
+.checklist-subitem{padding-left:1.5rem!important;background:var(--gray)!important}
+.checklist-subitem:hover{background:var(--blue-pale)!important}
+
+/* PLACEHOLDER */
+.placeholder{background:var(--white);border:2px dashed var(--border);border-radius:var(--radius-lg);padding:3rem 2rem;text-align:center}
+.placeholder-icon{font-size:36px;margin-bottom:.75rem}
+.placeholder h2{font-size:18px;font-weight:700;margin-bottom:.4rem}
+.placeholder p{font-size:14px;color:var(--text-soft);max-width:380px;margin:0 auto .75rem;line-height:1.6}
+.ph-tag{display:inline-block;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;background:var(--amber-light);color:var(--amber)}
+
+/* FINAL QUIZ CTA */
+.final-quiz{background:linear-gradient(135deg,#0F2878,#1B3FA0);border-radius:var(--radius-lg);padding:1.75rem 2rem;margin:2.5rem 0;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;box-shadow:0 8px 24px rgba(27,63,160,.2)}
+.final-quiz-text h3{font-size:16px;font-weight:700;color:var(--white);margin-bottom:.3rem}
+.final-quiz-text p{font-size:13px;color:rgba(255,255,255,.65)}
+.final-quiz-btn{display:inline-flex;align-items:center;gap:6px;background:var(--white);color:var(--blue);font-size:13px;font-weight:700;padding:10px 20px;border-radius:7px;cursor:pointer;text-decoration:none;white-space:nowrap;transition:opacity .15s;flex-shrink:0}
+.final-quiz-btn.disabled{background:rgba(255,255,255,.25);color:rgba(255,255,255,.6);cursor:default}
+
+@media(max-width:680px){
+  .shell{grid-template-columns:1fr}
+  .menu-btn{display:inline-flex}
+  .logo-sub{display:none}
+  .sidebar{position:fixed;top:56px;left:0;width:260px;max-width:82vw;display:block;transform:translateX(-100%);transition:transform .25s ease;z-index:300;box-shadow:0 10px 30px rgba(0,0,0,.18)}
+  body.nav-open .sidebar{transform:translateX(0)}
+  body.nav-open .nav-overlay{display:block;position:fixed;inset:56px 0 0 0;background:rgba(0,0,0,.4);z-index:250}
+  .main{padding:1.5rem 1rem}
+  .story-phase-grid,.nc-roles,.loop-steps{grid-template-columns:1fr}
+  .pdca{grid-template-columns:repeat(2,1fr)}
+  .nc-flow{grid-template-columns:repeat(3,1fr)}
+}
+.divider{border:none;border-top:1px solid var(--border);margin:2rem 0}
+/* FOOTER */
+.site-footer{border-top:1px solid var(--border);background:var(--white);padding:1.75rem 1.5rem;margin-top:auto}
+.footer-inner{max-width:1280px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;gap:1.25rem 2rem}
+.footer-col{min-width:180px}
+.footer-brand{display:flex;align-items:center;gap:8px;margin-bottom:.5rem}
+.footer-brand img{height:24px;width:auto;display:block}
+.footer-title{font-size:13px;font-weight:700;color:var(--text)}
+.footer-text{font-size:11.5px;color:var(--text-soft);line-height:1.6}
+.footer-col h4{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-soft);margin-bottom:.4rem}
+.footer-meta{font-size:11.5px;color:var(--text-mid);line-height:1.7}
+.footer-meta b{color:var(--text);font-weight:600}
+.footer-meta a{color:var(--blue);text-decoration:none}
+.footer-meta a:hover{text-decoration:underline}
+.footer-bottom{max-width:1280px;margin:1.25rem auto 0;padding-top:1rem;border-top:1px solid var(--border);font-size:11px;color:var(--text-soft);line-height:1.6}
+@media(max-width:680px){.footer-inner{flex-direction:column;gap:1.25rem}}
+</style>
+</head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <!-- home -->
+  <symbol id="ico-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+  </symbol>
+  <!-- why iso (shield check) -->
+  <symbol id="ico-iso" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/>
+  </symbol>
+  <!-- principles (layers) -->
+  <symbol id="ico-principles" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>
+  </symbol>
+  <!-- loop (refresh) -->
+  <symbol id="ico-loop" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/>
+    <path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/>
+  </symbol>
+  <!-- your role (user) -->
+  <symbol id="ico-concepts" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>
+  </symbol>
+  <!-- qms in action (zap) -->
+  <symbol id="ico-stories" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+  </symbol>
+  <!-- documentation (file-text) -->
+  <symbol id="ico-docs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
+  </symbol>
+  <!-- audits (search) -->
+  <symbol id="ico-audits" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+  </symbol>
+  <!-- reference (book-open) -->
+  <symbol id="ico-ref" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/>
+  </symbol>
+  <!-- security (lock) -->
+  <symbol id="ico-isms" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>
+  </symbol>
+  <!-- hr (users) -->
+  <symbol id="ico-hr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/>
+  </symbol>
+  <!-- quizzes (check-square) -->
+  <symbol id="ico-quizzes" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+  </symbol>
+  <!-- concept: quality (target) -->
+  <symbol id="ico-quality" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>
+  </symbol>
+  <!-- concept: NC (alert-triangle) -->
+  <symbol id="ico-nc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+  </symbol>
+  <!-- concept: corrective action (tool) -->
+  <symbol id="ico-action" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+  </symbol>
+  <!-- concept: evidence (clipboard) -->
+  <symbol id="ico-evidence" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><line x1="12" y1="11" x2="16" y2="11"/><line x1="12" y1="15" x2="16" y2="15"/><line x1="8" y1="11" x2="8.01" y2="11"/><line x1="8" y1="15" x2="8.01" y2="15"/>
+  </symbol>
+
+  <!-- team icons -->
+  <symbol id="ico-team-app" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+  </symbol>
+  <symbol id="ico-team-ai" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="2"/><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+  </symbol>
+  <symbol id="ico-team-edge" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+  </symbol>
+  <symbol id="ico-team-embedded" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="2" x2="9" y2="4"/><line x1="15" y1="2" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="22"/><line x1="15" y1="20" x2="15" y2="22"/><line x1="20" y1="9" x2="22" y2="9"/><line x1="20" y1="15" x2="22" y2="15"/><line x1="2" y1="9" x2="4" y2="9"/><line x1="2" y1="15" x2="4" y2="15"/>
+  </symbol>
+  <symbol id="ico-team-finance" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
+  </symbol>
+  <symbol id="ico-team-hr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/>
+  </symbol>
+  <symbol id="ico-team-isms" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+  </symbol>
+  <symbol id="ico-team-manufacturing" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+  </symbol>
+  <symbol id="ico-team-pm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+  </symbol>
+  <symbol id="ico-team-quality" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+  </symbol>
+  <symbol id="ico-team-sales" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>
+  </symbol>
+  <symbol id="ico-team-cross" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 012 2v7"/><line x1="6" y1="9" x2="6" y2="21"/>
+  </symbol>
+  <!-- doc cost icons -->
+  <symbol id="ico-doc-pause" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+  </symbol>
+  <symbol id="ico-doc-repeat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/>
+  </symbol>
+  <symbol id="ico-doc-outdated" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/>
+  </symbol>
+</svg>
+
+  <symbol id="ico-loop-bug" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+  </symbol>
+  <symbol id="ico-loop-log" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/>
+  </symbol>
+  <symbol id="ico-loop-fix" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+  </symbol>
+  <symbol id="ico-loop-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+  </symbol>
+  <symbol id="ico-loop-sad" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="10"/><line x1="8" y1="15" x2="16" y2="15"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/>
+  </symbol>
+  <symbol id="ico-loop-no" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/>
+  </symbol>
+  <symbol id="ico-loop-done" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="20 6 9 17 4 12"/>
+  </symbol>
+</svg>
+<h1 class="sr-only">ML!PA ISO 9001 Training</h1>
+
+<nav class="nav">
+  <button class="menu-btn" id="menu-btn" onclick="toggleNav()" aria-label="Open navigation menu" aria-expanded="false">☰</button>
+  <div style="display:flex;align-items:center;cursor:pointer" onclick="go('iso')">
+    <img class="logo-img" src="MLPA%20Logo%202015-01%20trans%203.png" alt="ML!PA" />
+    <span class="logo-sub">ISO 9001 Training</span>
+  </div>
+  <div class="nav-right">
+    <div class="lang-pill">
+      <button class="active" onclick="setLang('en')" id="btn-en">EN</button>
+      <button onclick="setLang('de')" id="btn-de">DE</button>
+    </div>
+  </div>
+</nav>
+
+<div class="nav-overlay" id="nav-overlay" onclick="closeNav()"></div>
+
+<div class="shell">
+  <aside class="sidebar">
+    <div class="sidebar-label">ISO 9001</div>
+    <div class="nav-item active" onclick="go('iso')" id="ni-iso"><span class="nav-icon"><svg width="14" height="14" style="vertical-align:middle"><use href="#ico-iso"/></svg></span><span class="nav-label" id="nl-iso">Why it matters</span><span class="check" id="ck-iso">✓</span></div>
+    <div class="nav-item" onclick="go('principles')" id="ni-principles"><span class="nav-icon"><svg width="14" height="14" style="vertical-align:middle"><use href="#ico-principles"/></svg></span><span class="nav-label" id="nl-principles">The 7 Principles</span><span class="check" id="ck-principles">✓</span></div>
+    <div class="nav-item" onclick="go('loop')" id="ni-loop"><span class="nav-icon"><svg width="14" height="14" style="vertical-align:middle"><use href="#ico-loop"/></svg></span><span class="nav-label" id="nl-loop">The feedback loop</span><span class="check" id="ck-loop">✓</span></div>
+    <div class="nav-item" onclick="go('concepts')" id="ni-concepts"><span class="nav-icon"><svg width="14" height="14" style="vertical-align:middle"><use href="#ico-concepts"/></svg></span><span class="nav-label" id="nl-concepts">Your Role in the QMS</span><span class="check" id="ck-concepts">✓</span></div>
+    <div class="nav-item" onclick="go('stories')" id="ni-stories"><span class="nav-icon"><svg width="14" height="14" style="vertical-align:middle"><use href="#ico-stories"/></svg></span><span class="nav-label" id="nl-stories">QMS in Action</span><span class="check" id="ck-stories">✓</span></div>
+    <div class="nav-item" onclick="go('docs')" id="ni-docs"><span class="nav-icon"><svg width="14" height="14" style="vertical-align:middle"><use href="#ico-docs"/></svg></span><span class="nav-label" id="nl-docs">Documentation</span><span class="check" id="ck-docs">✓</span></div>
+    <div class="nav-item" onclick="go('audits')" id="ni-audits"><span class="nav-icon"><svg width="14" height="14" style="vertical-align:middle"><use href="#ico-audits"/></svg></span><span class="nav-label" id="nl-audits">Audits</span><span class="check" id="ck-audits">✓</span></div>
+    <div class="nav-item" onclick="go('ref')" id="ni-ref"><span class="nav-icon"><svg width="14" height="14" style="vertical-align:middle"><use href="#ico-ref"/></svg></span><span class="nav-label" id="nl-ref">Reference</span><span class="check" id="ck-ref">✓</span></div>
+    <div class="sidebar-label">Assessments</div>
+    <div class="nav-item" onclick="go('quizzes')" id="ni-quizzes"><span class="nav-icon"><svg width="14" height="14" style="vertical-align:middle"><use href="#ico-quizzes"/></svg></span><span class="nav-label" id="nl-quizzes">Knowledge Check</span><span class="check" id="ck-quizzes">✓</span></div>
+  </aside>
+
+  <main class="main" id="main-content">
+    <div class="content-section active" id="sec-iso">
+      <div class="article-header">
+        <div class="article-eyebrow">Section 1 of 8</div>
+        <div class="article-title">Why ISO 9001 Matters at ML!PA</div>
+        <div class="article-sub">A system that prevents problems. Built so the same failure does not happen twice.</div>
+      </div>
+      <div class="article" id="art-iso"></div>
+    </div>
+
+    <div class="content-section" id="sec-principles">
+      <div class="article-header">
+        <div class="article-eyebrow">Section 2 of 8</div>
+        <div class="article-title">The 7 Principles</div>
+        <div class="article-sub">Seven principles. Each one explains why quality work needs structure, direction, and people who care.</div>
+      </div>
+      <div class="article" id="art-principles"></div>
+    </div>
+
+    <div class="content-section" id="sec-loop">
+      <div class="article-header">
+        <div class="article-eyebrow">Section 2 of 8</div>
+        <div class="article-title">The Feedback Loop</div>
+        <div class="article-sub">The one idea behind the entire system, and why logging a problem is not bureaucracy.</div>
+      </div>
+      <div class="article" id="art-loop"></div>
+    </div>
+
+    <div class="content-section" id="sec-concepts">
+      <div class="article-header">
+        <div class="article-eyebrow">Section 3 of 8</div>
+        <div class="article-title">Key Concepts</div>
+        <div class="article-sub">The vocabulary and the process, explained the way it actually works here.</div>
+      </div>
+      <div class="article" id="art-concepts"></div>
+    </div>
+
+    <div class="content-section" id="sec-stories">
+      <div class="article-header">
+        <div class="article-eyebrow">Section 4 of 8</div>
+        <div class="article-title">QMS in Action</div>
+        <div class="article-sub">Three real situations. The details changed. The patterns are recognisable.</div>
+      </div>
+      <div class="article" id="art-stories"></div>
+    </div>
+
+    <div class="content-section" id="sec-docs">
+      <div class="article-header">
+        <div class="article-eyebrow">Section 6 of 8</div>
+        <div class="article-title">Documentation</div>
+        <div class="article-sub">The thing everyone hates, and why skipping it is always more expensive.</div>
+      </div>
+      <div class="article" id="art-docs"></div>
+    </div>
+
+    <div class="content-section" id="sec-audits">
+      <div class="article-header">
+        <div class="article-eyebrow">Section 7 of 8</div>
+        <div class="article-title">Audits</div>
+        <div class="article-sub">What they are, who they talk to, and what to expect.</div>
+      </div>
+      <div class="article" id="art-audits"></div>
+    </div>
+
+    <div class="content-section" id="sec-ref">
+      <div class="article-header">
+        <div class="article-eyebrow">Section 8 of 8</div>
+        <div class="article-title">Reference</div>
+        <div class="article-meta"><span class="meta-tag">Reference only</span></div>
+      </div>
+      <div class="article" id="art-ref"></div>
+    </div>
+
+    <div class="content-section" id="sec-quizzes">
+      <div class="article-header">
+        <div class="article-eyebrow">Assessments</div>
+        <div class="article-title">Knowledge Check</div>
+        <div class="article-sub">Complete the training sections, then take the ISO 9001 Awareness knowledge check below.</div>
+      </div>
+      <div class="quiz-table-wrap" id="quiz-list"></div>
+      <div class="callout blue" style="margin-top:1.25rem">
+        <div class="callout-title" id="qc1-title">How results are recorded</div>
+        <span id="qc1-body">The knowledge check opens in Microsoft Forms. Your Microsoft 365 account identifies you. Results are stored in HR SharePoint. No data leaves ML!PA's Microsoft 365 environment.</span>
+      </div>
+      <div class="callout orange" style="margin-top:.75rem">
+        <div class="callout-title" id="qc2-title">Before you start</div>
+        <span id="qc2-body">Work through all the training sections first, then take the ISO 9001 Awareness knowledge check. A passing score of 80% is required.</span>
+      </div>
+    </div>
+  </main>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-col">
+      <div class="footer-brand">
+        <img src="MLPA%20Logo%202015-01%20trans%203.png" alt="ML!PA" />
+        <span class="footer-title" id="ft-title">ISO 9001 Training</span>
+      </div>
+      <div class="footer-text" id="ft-desc">Quality awareness training for all ML!PA employees, supporting our ISO 9001 certified Quality Management System.</div>
+    </div>
+  </div>
+  <div class="footer-bottom" id="ft-bottom">© 2026 ML!PA GmbH. Internal use only. This material is confidential and intended solely for ML!PA employees. Do not distribute outside the organisation.</div>
+</footer>
+
+<script>
+// ─────────────────────────────────────────────────────────────
+// QUIZ LINK, paste your Microsoft Forms URL once here.
+// It applies to both EN and DE (the form handles both languages).
+// Example: const QUIZ_LINK = "https://forms.office.com/Pages/ResponsePage.aspx?id=YOURCODE";
+// ─────────────────────────────────────────────────────────────
+const QUIZ_LINK = "https://forms.microsoft.com/Pages/ResponsePage.aspx?id=Mw0JI9_w9USTVhN6e9_mnFzCvVcNnaRDtgtsZH275kNUQzMxTlVSWUczUUlXRVQ2RFJCVDBHTkpPUC4u"; // ← PASTE YOUR LINK HERE
+
+const C={en:{
+  teams:[
+    {name:"Application",icon:"ico-team-app"},
+    {name:"Data & AI",icon:"ico-team-ai"},
+    {name:"Edge",icon:"ico-team-edge"},
+    {name:"Embedded",icon:"ico-team-embedded"},
+    {name:"Finance",icon:"ico-team-finance"},
+    {name:"HR & Administration",icon:"ico-team-hr"},
+    {name:"Information Security",icon:"ico-team-isms"},
+    {name:"Manufacturing",icon:"ico-team-manufacturing"},
+    {name:"Project Management",icon:"ico-team-pm"},
+    {name:"Quality & Compliance",icon:"ico-team-quality"},
+    {name:"Sales & Product",icon:"ico-team-sales"},
+    {name:"Cross-functional",icon:"ico-team-cross"},
+  ],
+
+  teamModules:{
+    "Application":{
+      required:[
+        {label:"Why ISO 9001 matters",icon:"▣",sec:"iso"},
+        {label:"The 7 Principles",icon:"◉",sec:"principles"},
+        {label:"The feedback loop",icon:"↺",sec:"loop"},
+        {label:"Your Role in the QMS",icon:"◎",sec:"concepts"},
+        {label:"QMS in Action",icon:"▶",sec:"stories"},
+        {label:"Documentation",icon:"▣",sec:"docs"},
+        {label:"Audits",icon:"◐",sec:"audits"},
+        {label:"Reference",icon:"≡",sec:"ref"},
+      ],
+      soon:[{label:"Information Security (ISMS)",icon:"◆",sec:"isms"},{label:"Application team onboarding",icon:"◈",sec:"isms"}],
+      quizzes:["ISO 9001 Awareness","Information Security Awareness","HR Training","Application team onboarding quiz"]
+    },
+    "Data & AI":{
+      required:[
+        {label:"Why ISO 9001 matters",icon:"▣",sec:"iso"},
+        {label:"The 7 Principles",icon:"◉",sec:"principles"},
+        {label:"The feedback loop",icon:"↺",sec:"loop"},
+        {label:"Your Role in the QMS",icon:"◎",sec:"concepts"},
+        {label:"QMS in Action",icon:"▶",sec:"stories"},
+        {label:"Documentation",icon:"▣",sec:"docs"},
+        {label:"Audits",icon:"◐",sec:"audits"},
+        {label:"Reference",icon:"≡",sec:"ref"},
+      ],
+      soon:[{label:"Information Security (ISMS)",icon:"◆",sec:"isms"},{label:"Data & AI team onboarding",icon:"◈",sec:"isms"}],
+      quizzes:["ISO 9001 Awareness","Information Security Awareness","HR Training","Data & AI team onboarding quiz"]
+    },
+    "Edge":{
+      required:[
+        {label:"Why ISO 9001 matters",icon:"▣",sec:"iso"},
+        {label:"The 7 Principles",icon:"◉",sec:"principles"},
+        {label:"The feedback loop",icon:"↺",sec:"loop"},
+        {label:"Your Role in the QMS",icon:"◎",sec:"concepts"},
+        {label:"QMS in Action",icon:"▶",sec:"stories"},
+        {label:"Documentation",icon:"▣",sec:"docs"},
+        {label:"Audits",icon:"◐",sec:"audits"},
+        {label:"Reference",icon:"≡",sec:"ref"},
+      ],
+      soon:[{label:"Information Security (ISMS)",icon:"◆",sec:"isms"},{label:"Edge team onboarding",icon:"◈",sec:"isms"}],
+      quizzes:["ISO 9001 Awareness","Information Security Awareness","HR Training","Edge team onboarding quiz"]
+    },
+    "Embedded":{
+      required:[
+        {label:"Why ISO 9001 matters",icon:"▣",sec:"iso"},
+        {label:"The 7 Principles",icon:"◉",sec:"principles"},
+        {label:"The feedback loop",icon:"↺",sec:"loop"},
+        {label:"Your Role in the QMS",icon:"◎",sec:"concepts"},
+        {label:"QMS in Action",icon:"▶",sec:"stories"},
+        {label:"Documentation",icon:"▣",sec:"docs"},
+        {label:"Audits",icon:"◐",sec:"audits"},
+        {label:"Reference",icon:"≡",sec:"ref"},
+      ],
+      soon:[{label:"Information Security (ISMS)",icon:"◆",sec:"isms"},{label:"Embedded team onboarding",icon:"◈",sec:"isms"}],
+      quizzes:["ISO 9001 Awareness","Information Security Awareness","HR Training","Embedded team onboarding quiz"]
+    },
+    "Finance":{
+      required:[
+        {label:"Why ISO 9001 matters",icon:"▣",sec:"iso"},
+        {label:"The 7 Principles",icon:"◉",sec:"principles"},
+        {label:"The feedback loop",icon:"↺",sec:"loop"},
+        {label:"Your Role in the QMS",icon:"◎",sec:"concepts"},
+        {label:"QMS in Action",icon:"▶",sec:"stories"},
+        {label:"Documentation",icon:"▣",sec:"docs"},
+        {label:"Audits",icon:"◐",sec:"audits"},
+        {label:"Reference",icon:"≡",sec:"ref"},
+      ],
+      soon:[{label:"Information Security (ISMS)",icon:"◆",sec:"isms"},{label:"Finance team onboarding",icon:"◈",sec:"isms"},{label:"HR & Compliance Training",icon:"◈",sec:"hr"}],
+      quizzes:["ISO 9001 Awareness","Information Security Awareness","HR Training","Finance team onboarding quiz"]
+    },
+    "HR & Administration":{
+      required:[
+        {label:"Why ISO 9001 matters",icon:"▣",sec:"iso"},
+        {label:"The 7 Principles",icon:"◉",sec:"principles"},
+        {label:"The feedback loop",icon:"↺",sec:"loop"},
+        {label:"Your Role in the QMS",icon:"◎",sec:"concepts"},
+        {label:"QMS in Action",icon:"▶",sec:"stories"},
+        {label:"Documentation",icon:"▣",sec:"docs"},
+        {label:"Audits",icon:"◐",sec:"audits"},
+        {label:"Reference",icon:"≡",sec:"ref"},
+      ],
+      soon:[{label:"Information Security (ISMS)",icon:"◆",sec:"isms"},{label:"HR & Administration onboarding",icon:"◈",sec:"isms"},{label:"HR Compliance Training",icon:"◈",sec:"hr"}],
+      quizzes:["ISO 9001 Awareness","Information Security Awareness","HR Training","HR & Administration onboarding quiz"]
+    },
+    "Information Security":{
+      required:[
+        {label:"Why ISO 9001 matters",icon:"▣",sec:"iso"},
+        {label:"The 7 Principles",icon:"◉",sec:"principles"},
+        {label:"The feedback loop",icon:"↺",sec:"loop"},
+        {label:"Your Role in the QMS",icon:"◎",sec:"concepts"},
+        {label:"QMS in Action",icon:"▶",sec:"stories"},
+        {label:"Documentation",icon:"▣",sec:"docs"},
+        {label:"Audits",icon:"◐",sec:"audits"},
+        {label:"Reference",icon:"≡",sec:"ref"},
+      ],
+      soon:[{label:"Information Security deep dive (ISMS)",icon:"◆",sec:"isms"},{label:"Information Security team onboarding",icon:"◈",sec:"isms"}],
+      quizzes:["ISO 9001 Awareness","Information Security Awareness","HR Training","Information Security onboarding quiz"]
+    },
+    "Manufacturing":{
+      required:[
+        {label:"Why ISO 9001 matters",icon:"▣",sec:"iso"},
+        {label:"The 7 Principles",icon:"◉",sec:"principles"},
+        {label:"The feedback loop",icon:"↺",sec:"loop"},
+        {label:"Your Role in the QMS",icon:"◎",sec:"concepts"},
+        {label:"QMS in Action",icon:"▶",sec:"stories"},
+        {label:"Documentation",icon:"▣",sec:"docs"},
+        {label:"Audits",icon:"◐",sec:"audits"},
+        {label:"Reference",icon:"≡",sec:"ref"},
+      ],
+      soon:[{label:"Information Security (ISMS)",icon:"◆",sec:"isms"},{label:"Manufacturing team onboarding",icon:"◈",sec:"isms"}],
+      quizzes:["ISO 9001 Awareness","Information Security Awareness","HR Training","Manufacturing team onboarding quiz"]
+    },
+    "Project Management":{
+      required:[
+        {label:"Why ISO 9001 matters",icon:"▣",sec:"iso"},
+        {label:"The 7 Principles",icon:"◉",sec:"principles"},
+        {label:"The feedback loop",icon:"↺",sec:"loop"},
+        {label:"Your Role in the QMS",icon:"◎",sec:"concepts"},
+        {label:"QMS in Action",icon:"▶",sec:"stories"},
+        {label:"Documentation",icon:"▣",sec:"docs"},
+        {label:"Audits",icon:"◐",sec:"audits"},
+        {label:"Reference",icon:"≡",sec:"ref"},
+      ],
+      soon:[{label:"Information Security (ISMS)",icon:"◆",sec:"isms"},{label:"Project Management team onboarding",icon:"◈",sec:"isms"}],
+      quizzes:["ISO 9001 Awareness","Information Security Awareness","HR Training","Project Management onboarding quiz"]
+    },
+    "Quality & Compliance":{
+      required:[
+        {label:"Why ISO 9001 matters",icon:"▣",sec:"iso"},
+        {label:"The 7 Principles",icon:"◉",sec:"principles"},
+        {label:"The feedback loop",icon:"↺",sec:"loop"},
+        {label:"Your Role in the QMS",icon:"◎",sec:"concepts"},
+        {label:"QMS in Action",icon:"▶",sec:"stories"},
+        {label:"Documentation",icon:"▣",sec:"docs"},
+        {label:"Audits",icon:"◐",sec:"audits"},
+        {label:"Reference",icon:"≡",sec:"ref"},
+      ],
+      soon:[{label:"Information Security (ISMS)",icon:"◆",sec:"isms"},{label:"Sales & Product team onboarding",icon:"◈",sec:"isms"}],
+      quizzes:["ISO 9001 Awareness","Information Security Awareness","HR Training","Sales & Product onboarding quiz"]
+    },
+    "Cross-functional":{
+      required:[
+        {label:"Why ISO 9001 matters",icon:"▣",sec:"iso"},
+        {label:"The 7 Principles",icon:"◉",sec:"principles"},
+        {label:"The feedback loop",icon:"↺",sec:"loop"},
+        {label:"Your Role in the QMS",icon:"◎",sec:"concepts"},
+        {label:"QMS in Action",icon:"▶",sec:"stories"},
+        {label:"Documentation",icon:"▣",sec:"docs"},
+        {label:"Audits",icon:"◐",sec:"audits"},
+        {label:"Reference",icon:"≡",sec:"ref"},
+      ],
+      soon:[{label:"Information Security (ISMS)",icon:"◆",sec:"isms"},{label:"Team onboarding material",icon:"◈",sec:"isms"}],
+      quizzes:["ISO 9001 Awareness","Information Security Awareness","HR Training"]
+    },
+  },
+
+  quizzes:[
+    {name:"ISO 9001 Awareness",who:"All employees",pass:"80%",lt:"Open knowledge check"},
+  ],
+
+  // ── ARTICLES ─────────────────────────────────────────
+
+  artPrinciples:[
+    {t:"p",c:"Seven principles underpin ISO 9001. Each one reflects a different reason why consistent quality needs more than good intentions."},
+    {t:"principles-grid"},
+  ],
+
+  artIso:[
+    {t:"callout",v:"blue",ti:"QMS and ISO 9001: What do they mean and how are they related?",c:"A Quality Management System (QMS) is how a company organises its work to deliver consistent quality. It is a set of processes, records, procedures, policies, and guidelines that make sure things are done right and problems get fixed properly. ISO 9001 is the international standard that defines the requirements for a well-run QMS. Getting certified means an independent auditor has checked our system against those requirements and confirmed it meets them. The QMS is what we run every day. ISO 9001 provides the requirements our QMS is built to meet."},
+    {t:"p",c:"Quality problems tend to come from the same places: requirements that were never written down, steps that got skipped under pressure, problems fixed quietly without anyone recording what happened. A QMS is the structure that catches those gaps before they turn expensive."},
+    {t:"callout",v:"blue",ti:"What this means in practice",c:"ISO 9001 is sometimes seen as something the Quality team handles before an annual audit. It is actually a framework that shapes how we design, build, test, and deliver. When it is working, you barely notice it. When it breaks down, you see it in rework, in escalations, and in projects that spend weeks reconstructing what someone already knew."},
+    {t:"h3",c:"What actually goes wrong when quality systems fail"},
+    {t:"scenarios"},
+    {t:"callout",v:"green",ti:"What certification means for our business",c:"Many enterprise and government customers require ISO 9001 certification from suppliers before signing a contract. Our certification is a commercial prerequisite that opens doors. Keeping it requires everyone's participation, across every team."},
+  ],
+
+  scenarios:[
+    {situation:"A supplier changes something. Nobody writes it down. Months later, the product fails.",body:"A supplier quietly adjusts a component specification during an ongoing production run. The engineer who noticed it mentioned it in an email and moved on. It never went into the quality system. Six months later, customers start reporting failures. The investigation tries to trace what changed and when, but there is no record. What should have been a one-day fix becomes a multi-week investigation, and a product recall that damaged the relationship with the customer.",fix:"If the change had gone through a documented review, recorded, checked, approved, the investigation would have started and ended in the same afternoon.",lesson:"Informal communication and undocumented changes cause costly failures. Every specification change must be formally recorded, evaluated, approved, and communicated."},
+    {situation:"A construction project delivered to the wrong specification",body:"A structural engineering firm wins a government contract. Requirements are agreed verbally in early meetings and captured informally. Midway through, the client updates the load-bearing specification in a formal amendment. The site team never receives it. Construction continues to the original spec. The error is discovered during final inspection. Demolition and reconstruction of a structural element costs more than the original contract value.",fix:"A requirement review process where every change is formally recorded, distributed, and confirmed would have caught this before a brick was laid.",lesson:"Verbal agreements are not agreements. Every requirement change must be formally recorded, distributed, and confirmed before work continues."},
+    {situation:"A food manufacturer that could not answer a regulator's question",body:"A food production company is audited following a customer complaint about a product batch. The regulator asks: which supplier provided the ingredient in that batch, and what was its quality certificate at the time of receipt? The company cannot answer. Supplier records exist in a spreadsheet that was last updated six months ago. Certificates are in a folder on someone's desktop. The regulator issues a formal finding, because the organisation could not demonstrate the product was safe.",fix:"Supplier records and certificates kept in a controlled system mean any question about any batch gets answered in minutes.",lesson:"Compliance requires proof. Records are what turn completed work into verifiable fact. Without them, the work cannot be confirmed."},
+  ],
+
+  artLoop:[
+    {t:"p",c:"The whole point of the system is this: when something goes wrong, log it, understand why, fix the cause, and make sure the next team benefits from what you learned. Every failure handled that way makes the next one less likely."},
+    {t:"callout",v:"blue",ti:"Logging a problem is not bureaucracy",c:"When you raise an NC in Azure DevOps, you are telling the system something went wrong and giving it a chance to make sure it does not happen again. Skipping that step means the system has to guess."},
+    {t:"loop-example"},
+    {t:"h3",c:"Plan, Do, Check, Act"},
+    {t:"p",c:"The QMS runs on one loop: Plan, Do, Check, Act. Every project, every process, every improvement follows this cycle."},
+    {t:"pdca"},
+    {t:"h3",c:"Where your records live"},
+    {t:"table",hdr:["What","Where"],rows:[
+      ["Procedures and work instructions","Integrated Management Systems SharePoint. Always use the current version, never a local copy"],
+      ["Nonconformities","Azure DevOps, log immediately as a work item"],
+      ["Corrective actions","Azure DevOps, owner, due date, and evidence of closure required"],
+      ["Training records","HR SharePoint"],
+      ["Technical documentation","DevOps Wiki"],
+      ["Customer feedback & satisfaction","Customer satisfaction survey, results shared directly with Sales and Quality teams"],
+    ]},
+  ],
+
+  artConcepts:[
+    {t:"h3",c:"Our Quality Policy"},
+    {t:"callout",v:"blue",ti:"Vision",c:"We transform industries to sustainability."},
+    {t:"bullets",items:[
+      "Building trustful, long-term relationships with customers through a deep understanding of their needs and requirements",
+      "Operating a Quality Management System based on ISO 9001, committed to continual improvement and compliance with all applicable statutory and regulatory requirements",
+      "Digitalising our management, core, and support processes, combined with agile development methods and automation of quality assurance to minimise errors and maintain high efficiency",
+      "Treating our employees as our most valuable asset, respecting their individual needs, and building inspiring team settings with ongoing opportunities for personal growth",
+    ]},
+    {t:"callout",v:"blue",ti:"Mission",c:"We empower our employees to drive change by leveraging best-in-class technology."},
+    {t:"p",c:"The full Quality Policy is in the Integrated Management Systems SharePoint. You are expected to know what it stands for and be able to explain how it connects to your own work."},
+    {t:"h3",c:"Terms you will encounter"},
+    {t:"p",c:"A few terms that come up regularly in this training and in day-to-day quality work."},
+    {t:"concept-cards",items:[
+      {icon:"quality",title:"Quality",body:"Delivering what you agreed with the customer. Reliably, consistently, every time. Quality is about being dependable."},
+      {icon:"nc",title:"Nonconformity (NC)",body:"When something fails a defined requirement, a test, a step, a customer expectation. Raising an NC is how the system learns. It is expected."},
+      {icon:"action",title:"Corrective action",body:"An action that eliminates the root cause of a problem so it cannot come back. It has an owner, a due date, and evidence that it actually worked."},
+      {icon:"evidence",title:"Evidence",body:"In quality work, if it is not recorded, it did not happen. Evidence is what turns a verbal agreement into a verifiable fact, and a closed ticket into a closed problem. Every record you keep is evidence that the work was done right."},
+    ]},
+    {t:"h3",c:"What is expected of you"},
+    {t:"p",c:"Working within the system comes down to three habits: use the current version of procedures from the IMS SharePoint, keep your records complete, and report problems when you spot them. Every NC logged helps the system improve. Raising issues is expected."},
+    {t:"p",c:"When assigned a corrective action, meet the deadline. If something gets in the way, flag it before the date passes."},
+    {t:"h3",c:"Where your responsibility ends"},
+    {t:"callout",v:"green",ti:"",c:"Managing the quality system and writing procedures is the Quality team's job. Your responsibility is your own work: done properly, recorded honestly, and problems flagged when you see them."},
+  ],
+
+  artResp:[],
+
+  artStories:[
+    {t:"p",c:"Three situations from real engineering and technology teams. The details have been changed. The patterns are ones you will recognise. Each one shows the same thing: a gap in how the system was set up, and what it took to close it."},
+    {t:"story",idx:0},{t:"story",idx:1},{t:"story",idx:4},
+    {t:"callout",v:"green",ti:"The pattern",c:"In every case the gap in the system was the problem, not the person. And in every case, the fix was straightforward once someone actually looked."},
+  ],
+
+  artDocs:[
+    {t:"p",c:"Documentation is complained about a lot. It is also the most misunderstood part of any quality system. The cost of skipping it rarely shows up immediately. It tends to appear months later, when a project stalls, the same bug surfaces twice, or a new joiner follows the wrong procedure."},
+    {t:"h3",c:"Two types that matter most to you"},
+    {t:"table",hdr:["Type","What it captures","Where it lives"],rows:[
+      ["Procedures","How a process is carried out, step by step, so everyone does it the same way","Integrated Management Systems SharePoint. Always the current version"],
+      ["NC records","What happened, why, what was done, and evidence it worked","Azure DevOps. Every NC ticket, open or closed"],
+    ]},
+    {t:"h3",c:"What good documentation actually answers"},
+    {t:"p",c:"Good documentation answers one question: what would someone need to know to continue this work without me? If a colleague could pick it up cleanly, it is complete."},
+    {t:"h3",c:"Three situations where poor documentation created real cost"},
+    {t:"docCosts"},
+    {t:"callout",v:"orange",ti:"When a procedure changes",c:"Let the Quality team know. Updating SharePoint yourself risks creating a version mismatch. A procedure that no longer reflects what you actually do is a nonconformity waiting to be found."},
+  ],
+
+  artAudits:[
+    {t:"p",c:"An audit is a structured check that the quality system is working as intended. Think of it as the Check step in PDCA, applied to the whole organisation."},
+    {t:"table",hdr:["Type","Who","Purpose"],rows:[
+      ["Internal audit","Trained internal colleagues","Check our own processes are followed correctly. Planned schedule."],
+      ["External / surveillance","Independent certification body","Verify we still meet ISO 9001 requirements. Annual."],
+      ["Customer audit","A client","Confirm we meet their quality expectations."],
+    ]},
+    {t:"h3",c:"Who auditors actually speak with"},
+    {t:"p",c:"External auditors primarily speak with the Quality and Compliance teams. They review records, procedures, and NC tickets, not individual employees. For most people at ML!PA, an external audit means nothing changes in your day. If you are ever directly involved in an audit conversation, focus on showing the records for your work and explaining how you follow your team's procedures. That is what auditors are looking for."},
+    {t:"h3",c:"What they look for"},
+    {t:"findings"},
+    {t:"callout",v:"blue",ti:"The simplest way to be audit-ready",c:"Follow your procedures, keep your records complete, and log problems when you see them. That covers it."},
+    {t:"finalQuiz"},
+  ],
+
+  artRef:[
+    {t:"callout",v:"blue",ti:"For the curious",c:"Nothing in this section is needed for the quiz or your day-to-day work."},
+    {t:"h3",c:"ISO 9001 · All clauses"},
+    {t:"clauseTable"},
+    {t:"h3",c:"The 8D Report"},
+    {t:"p",c:"When a nonconformity is recurring, customer-facing, or has a complex root cause, ML!PA uses the 8D Report."},
+    {t:"eightd"},
+  ],
+
+  // ── DATA ─────────────────────────────────────────────
+
+  principles:[
+    {num:"1",title:"Customer Focus",line:"Quality is defined by whether it meets customer requirements.",practice:["Requirement management","Quality assurance","Monitoring of customer satisfaction"]},
+    {num:"2",title:"Leadership",line:"Leaders at all levels set the tone. Quality follows direction.",practice:["Quality Policy","Management commitment to quality objectives","Clear responsibilities and accountabilities","Annual management review"]},
+    {num:"3",title:"Engagement of People",line:"The people doing the work are the people who see problems first. Every contribution counts.",practice:["Individual contribution of each employee"]},
+    {num:"4",title:"Process Approach",line:"Connected and standardised processes give consistent, predictable results.",practice:["Regularly updated process documentation","Consistent process follow-through across all teams"]},
+    {num:"5",title:"Continual Improvement",line:"Getting better is built into the system. Every lesson from a mistake feeds the next cycle.",practice:["Regular improvement meetings in teams","Regular internal audits","Central backlog for nonconformities with consistent follow-up"]},
+    {num:"6",title:"Risk-based Thinking",line:"Identify and address risks early rather than reacting after problems occur.",practice:["Risk assessment in project management","SWOT analysis in strategic planning"]},
+    {num:"7",title:"Evidence-based Decision Making",line:"Decisions should be based on data and verified results.",practice:["Testing with consistent result documentation","KPI framework and regular trend monitoring"]},
+  ],
+
+  pdca:[
+    {letter:"P",bg:"#1B3FA0",word:"Plan",desc:"Define measures. Set goals, assign owners, identify risks."},
+    {letter:"D",bg:"#E8192C",word:"Do",desc:"Implement the correction. Follow procedure. Record evidence."},
+    {letter:"C",bg:"#0F766E",word:"Check",desc:"Test if it worked. Audit. Measure. Review feedback."},
+    {letter:"A",bg:"#16A34A",word:"Act",desc:"Fix worked: standardise. Fix failed: back to Plan."},
+  ],
+
+  loopExample:{
+    label:"Real example, firmware release at ML!PA",
+    steps:[
+      {bg:"#1B3FA0",emoji:"▣",label:"Plan",desc:"Requirements documented in Azure DevOps before sprint starts"},
+      {bg:"#E8192C",emoji:"◈",label:"Do",desc:"Code written, reviewed (4-eyes), tested per procedure"},
+      {bg:"#0F766E",emoji:"◐",label:"Check",desc:"NC raised: release note missing from DevOps Wiki"},
+      {bg:"#16A34A",emoji:"✓",label:"Act",desc:"Procedure updated: release notes required before merge"},
+    ]
+  },
+
+  ncSteps:[
+    {num:"1",label:"Log it",sub:"Azure DevOps · now"},
+    {num:"2",label:"Contain",sub:"Stop it spreading"},
+    {num:"3",label:"Root cause",sub:"Why, not what"},
+    {num:"4",label:"Fix it",sub:"Owner + due date"},
+    {num:"5",label:"Add evidence",sub:"Proof it worked"},
+    {num:"6",label:"Close",sub:"Compliance team confirms"},
+  ],
+
+  ncRoles:[],
+
+  findings:[
+    {type:"Major NC",color:"var(--red-light)",border:"#FECACA",badgeColor:"var(--red)",desc:"A key requirement is not being met. Urgent corrective action required."},
+    {type:"Minor NC",color:"var(--amber-light)",border:"#FDE68A",badgeColor:"var(--amber)",desc:"A smaller or isolated lapse. Corrective action required."},
+    {type:"Observation",color:"var(--blue-pale)",border:"var(--blue-light)",badgeColor:"var(--blue)",desc:"Not a formal failure but worth addressing. May become an improvement task."},
+    {type:"Positive finding",color:"var(--green-light)",border:"#BBF7D0",badgeColor:"var(--green)",desc:"Good practice noted. Worth sharing with the team."},
+  ],
+
+  eightd:[
+    {d:"D1",title:"Form the team",desc:"Bring together the right people. Cross-functional is better."},
+    {d:"D2",title:"Describe the problem",desc:"Specific, measurable, with evidence. Not 'login is broken', 'login fails when email contains + symbol on v2.3.1'."},
+    {d:"D3",title:"Interim containment",desc:"Stop the problem spreading immediately. Log in Azure DevOps."},
+    {d:"D4",title:"Root cause",desc:"5 Whys or Fishbone. Stop at the systemic gap, not a person's name. Backed by evidence."},
+    {d:"D5",title:"Permanent corrective actions",desc:"Named owner. Real due date. Verification method defined before implementation starts."},
+    {d:"D6",title:"Implement and validate",desc:"Do it. Verify it worked. Evidence required before closing."},
+    {d:"D7",title:"Prevent recurrence",desc:"Update procedures in Integrated Management Systems SharePoint. Update checklists. Fix the system."},
+    {d:"D8",title:"Recognise and close",desc:"Document lessons learned. Share with the team. Close the record in Azure DevOps."},
+  ],
+
+  clauses:[
+    {num:"1",group:"intro",text:"Scope",subs:[]},
+    {num:"2",group:"intro",text:"Normative references",subs:[]},
+    {num:"3",group:"intro",text:"Terms and definitions",subs:[]},
+    {num:"4",group:"op",text:"Context of the organisation",subs:[
+      {num:"4.1",text:"Understanding the organisation and its context"},
+      {num:"4.2",text:"Understanding the needs and expectations of interested parties"},
+      {num:"4.3",text:"Determining the scope of the QMS"},
+      {num:"4.4",text:"QMS and its processes"},
+    ]},
+    {num:"5",group:"op",text:"Leadership",subs:[
+      {num:"5.1",text:"Leadership and commitment"},
+      {num:"5.2",text:"Quality Policy, must be documented, communicated, and understood by all employees"},
+      {num:"5.3",text:"Organisational roles, responsibilities and authorities"},
+    ]},
+    {num:"6",group:"op",text:"Planning",subs:[
+      {num:"6.1",text:"Actions to address risks and opportunities"},
+      {num:"6.2",text:"Quality objectives and planning to achieve them"},
+      {num:"6.3",text:"Planning of changes"},
+    ]},
+    {num:"7",group:"op",text:"Support",subs:[
+      {num:"7.1",text:"Resources, people, infrastructure, environment, monitoring and measurement"},
+      {num:"7.2",text:"Competence, employees must be competent for their roles"},
+      {num:"7.3",text:"Awareness. Every employee must know the Quality Policy, their quality objectives, their contribution, and the consequences of not following processes"},
+      {num:"7.4",text:"Communication, internal and external"},
+      {num:"7.5",text:"Documented information, control and maintenance of records and procedures"},
+    ]},
+    {num:"8",group:"op",text:"Operation",subs:[
+      {num:"8.1",text:"Operational planning and control"},
+      {num:"8.2",text:"Requirements for products and services, including customer communication and review"},
+      {num:"8.3",text:"Design and development"},
+      {num:"8.4",text:"Control of externally provided processes, products and services, supplier management"},
+      {num:"8.5",text:"Production and service provision, includes 8.5.3 Customer property (traceability, protection)"},
+      {num:"8.6",text:"Release of products and services"},
+      {num:"8.7",text:"Control of nonconforming outputs. The NC process"},
+    ]},
+    {num:"9",group:"op",text:"Performance evaluation",subs:[
+      {num:"9.1",text:"Monitoring, measurement, analysis and evaluation, includes customer satisfaction"},
+      {num:"9.2",text:"Internal audit"},
+      {num:"9.3",text:"Management review"},
+    ]},
+    {num:"10",group:"op",text:"Improvement",subs:[
+      {num:"10.1",text:"General"},
+      {num:"10.2",text:"Nonconformity and corrective action. The full NC process"},
+      {num:"10.3",text:"Continual improvement"},
+    ]},
+  ],
+
+  stories:[
+    {title:"The bug that got fixed twice",badge:"Situation 1 · Engineering",
+      bad:"A developer finds a bug during testing. It is not blocking, the fix is quick, and it is a busy sprint. She fixes it, the tests pass, and the work moves on. No ticket. No root cause. No record. Six months later a different engineer hits the same type of bug in a different part of the codebase. He investigates from scratch, same symptoms, same fix, same two days of work. Nobody connects the dots because there is nothing to connect.",
+      immediate:"The second engineer raised a ticket when he noticed the pattern. The first fix was partially reconstructed from version history, but the original context, why the bug occurred, what the conditions were, was gone.",
+      rc:"First attempt: 'developer did not log the defect.' The quality lead pushed back, that is a description of what happened, not why. Second attempt: the team had no shared norm about what required a ticket. Small fixes during development were informally considered not worth the overhead. That norm was never written down or questioned until it created a cost.",
+      fix:"Any defect fixed during development must have a ticket before the branch is merged, regardless of size. Added to the definition of done, spot-checked at sprint reviews. Verified across two consecutive sprints with 100% compliance. Ticket closed.",
+      acceptance:"",
+      lesson:"A fix without a record is not a fix. It is a delay. The same problem will come back, and next time it will cost more and start from zero.",
+      whys:[
+        {q:"Why did the same bug appear twice?",a:"The first fix was never recorded, so nothing triggered a review of related modules."},
+        {q:"Why was it not recorded?",a:"Small defects fixed during development were not considered worth logging."},
+        {q:"Why were they not considered worth logging?",a:"The team had no definition of what required a ticket, individuals filled the gap with their own judgement."},
+        {q:"Why was there no definition?",a:"The process described how to log a ticket but never defined the threshold for when one was required."},
+        {q:"Root cause",a:"No shared definition existed for what constitutes a loggable defect, so individual judgement replaced process, and the system learned nothing from the first failure.",rc:true},
+      ]
+    },
+    {title:"Both sides were right. That was the problem.",badge:"Situation 2 · Delivery",
+      bad:"A team spends six weeks building an integration module. The kickoff was thorough, the communication was good, and everyone felt aligned. At delivery, the customer pushes back. The error handling does not match their operational environment and the authentication approach conflicts with their security setup. The team explains what was agreed. The customer explains what they meant. Both are telling the truth. Neither had a signed document. The rework takes three weeks and costs more than the original margin.",
+      immediate:"Work stopped. A joint session was held, not to assign blame but to write down the actual requirements from both sides. It took a full day. There were more gaps than expected. Work resumed only after both parties signed off on a written spec.",
+      rc:"The project started on shared understanding, not shared documentation. Both parties left the kickoff confident they knew what was being built. They were each right about something different. The gap only became visible at delivery, by which point six weeks of work sat between the misunderstanding and the fix.",
+      fix:"A requirements sign-off template now covers scope, constraints, acceptance criteria, and explicit exclusions, filled in during kickoff and signed before work begins. Used on three subsequent projects with no delivery disputes in the 12 months following. Confirmed effective at management review.",
+      acceptance:"",
+      lesson:"Alignment in a room disappears the moment people leave it. The document is not bureaucracy. is the only version of the truth that survives the meeting. The exclusions section is the most important part.",
+      whys:[
+        {q:"Why was the delivery disputed?",a:"Acceptance criteria were never written down or agreed before work started."},
+        {q:"Why not written down?",a:"The team relied on meeting notes and shared confidence as sufficient."},
+        {q:"Why was shared confidence considered sufficient?",a:"No procedure required a sign-off before development began, kickoff meetings were the de facto gate."},
+        {q:"Why were kickoff meetings the only gate?",a:"The project initiation process had never been reviewed to include a formal requirements agreement step."},
+        {q:"Root cause",a:"Work started on the basis of mutual confidence rather than documented agreement, and confidence diverges silently under six weeks of parallel interpretation.",rc:true},
+      ]
+    },
+    {title:"A quick process tweak. Three months of silence. Then a field failure.",badge:"Situation 3 · Process",
+      bad:"Two engineers agree on a small change to a build configuration, a parameter adjustment that improves throughput. It is sensible, they test it, it works. They make the change on a Tuesday and move on. No change request. No quality sign-off. For three months everything is fine. Then a specific edge case starts failing in the field. The investigation takes two weeks and goes through three false leads before the change is traced back to that Tuesday. There is no record of who decided, what the justification was, or what the test coverage included.",
+      immediate:"The parameter was reverted immediately. Recent outputs were reviewed for the affected edge case. One customer was notified of a potential impact. The investigation confirmed no defective outputs had reached them, but the notification was required under the quality procedure.",
+      rc:"First root cause attempt pointed to the engineers not following the change procedure. On review, the change procedure did not actually cover parameter-level adjustments. was written for major configuration changes and assumed smaller adjustments were engineering discretion. The real gap was in the procedure's scope, not the engineers' behaviour.",
+      fix:"Change procedure rewritten to define three tiers: major changes requiring full review, minor changes with a one-page form and 24-hour turnaround, and parameter adjustments requiring a log entry and sign-off. Two release cycles completed under the new procedure. Internal audit verified compliance. Ticket closed.",
+      acceptance:"",
+      lesson:"The changes that bypass the process are never the ones that feel risky at the time. They feel obvious, quick, and safe, right up until they are not. And when the first root cause points at a person, keep asking.",
+      whys:[
+        {q:"Why was the change not submitted for review?",a:"The engineers believed parameter adjustments were engineering discretion, not subject to change control."},
+        {q:"Why did they believe that?",a:"The change procedure did not define its own scope. only described the process for changes already submitted."},
+        {q:"Why was the scope not defined?",a:"The procedure was written for major changes only, smaller adjustments were never discussed when it was created."},
+        {q:"Why were smaller adjustments not discussed?",a:"The procedure was authored by the quality function without input from engineering. The types of changes engineers actually make were not on the table."},
+        {q:"Root cause",a:"The change control procedure had no defined lower boundary, anything below a 'major change' was outside it by default, regardless of risk.",rc:true},
+      ]
+    },
+    {title:"Everyone knew. Except the person who needed to.",badge:"Situation 4 · Documentation",
+      bad:"A team updates their deployment process after a painful incident. The new process is better, cleaner, with an extra validation step that caught the original failure. The team is briefed, habits change, and things improve. Three months later a new engineer joins. She reads the procedure on the documentation system. It describes the old process. She follows it. Her deployment fails in the same way as the original incident. It takes half a day to diagnose. The procedure had not been updated since before the incident that prompted the process change.",
+      immediate:"The procedure was updated the same day. The new engineer was walked through the current process by a senior colleague. A check of other procedures found two more that were similarly out of date, both were updated before the week was out.",
+      rc:"The team treated process improvement and documentation update as separate activities. When the process changed, updating the procedure was assumed to be someone's responsibility. It was nobody's formally assigned responsibility. The two other out-of-date procedures confirmed this was systemic, not isolated.",
+      fix:"A documentation update step was added to the incident closure checklist, no incident ticket can be marked done without confirming the relevant procedure reflects current practice. A quarterly procedure review was introduced with named owners per procedure.",
+      acceptance:"Checklist updated and in use. Procedure owner assignments complete. First quarterly review completed, all procedures verified current. No recurrence of out-of-date procedures found at the following internal audit. Ticket closed.",
+      lesson:"A process that lives in people's heads is not a process. is tribal knowledge with an expiry date. The moment someone new joins, it becomes a trap. And if it happened once, check whether it happened elsewhere too.",
+      whys:[
+        {q:"Why did the new engineer follow the wrong process?",a:"The procedure on the documentation system described the old process."},
+        {q:"Why was the procedure not updated?",a:"No step in the incident workflow required a procedure update before closure."},
+        {q:"Why was it not required?",a:"Process change and documentation update were treated as separate activities with no enforced link."},
+        {q:"Why were they treated as separate?",a:"The incident closure checklist only covered the technical fix, documentation was assumed to follow naturally."},
+        {q:"Root cause",a:"The incident closure process had no documentation gate, so procedures and practice could silently diverge every time a process improved.",rc:true},
+      ]
+    },
+    {title:"The ticket was closed. The problem was not.",badge:"Situation 3 · Quality process",
+      bad:"An NC ticket is raised after a recurring integration failure. The immediate fix works. The failure stops, the customer is satisfied, the sprint moves on. The ticket is marked done. No root cause documented. No corrective action defined. Eight weeks later the same failure class appears in a different project. A second ticket is raised. The second investigation uncovers what the first never completed. By then two projects and two teams have paid for the same root cause, and the quality lead has to explain to the customer why the same issue appeared twice.",
+      immediate:"The second ticket was linked to the first and both were reviewed together. The first ticket was reopened because it had been closed without completing the required steps. The customer was informed that a systemic corrective action was being defined.",
+      rc:"The team understood 'done' to mean the immediate problem was resolved. The distinction between a correction (fixing this instance) and a corrective action (preventing recurrence) had never been explicitly communicated. The NC template did not require root cause or corrective action fields, they were optional.",
+      fix:"Required fields were added to the NC template: root cause analysis, corrective action, owner, due date. Optional became mandatory. The process owner defines the corrective action, and the Quality Management team supports the process to make sure the right evidence is in place before the ticket can be closed.",
+      acceptance:"Template updated and deployed. Quality lead sign-off confirmed on first five tickets closed under the new process. Follow-up at 60 days, no recurrence of tickets closed without root cause. Verified effective. Ticket closed.",
+      lesson:"Closing the ticket and closing the problem are two different things. The ticket tracks the paperwork. The corrective action stops the next one. If the template does not require it, it will not happen consistently.",
+      whys:[
+        {q:"Why did the same failure recur?",a:"The root cause was never identified or addressed in the first ticket."},
+        {q:"Why was the root cause not identified?",a:"The ticket was closed once the immediate fix was confirmed, root cause analysis was not required."},
+        {q:"Why was it not required?",a:"The NC template treated root cause and corrective action as optional fields."},
+        {q:"Why were they optional?",a:"The template was set up for speed. The assumption was that teams would add depth when they felt it was needed."},
+        {q:"Root cause",a:"The NC process had no mandatory closure criteria, a ticket could be marked done with only a fix recorded and no systemic learning captured.",rc:true},
+      ]
+    },
+  ],
+
+  docCosts:[
+    {icon:"doc-pause",title:"The paused project",story:"A developer leaves a project mid-way through. Three months later the work is handed to a new engineer. The DevOps Wiki has not been updated. A critical HW/SW interface change is undocumented. The new engineer assumes the original design. Two weeks of integration work is wasted.",impact:"2 weeks of engineering time. Preventable with one hour of documentation."},
+    {icon:"doc-repeat",title:"The repeated mistake",story:"A firmware bug class is fixed quietly. No NC ticket, no root cause, no record. Six months later the same error appears in a different module. Nobody connects the dots. The investigation happens again.",impact:"Duplicate investigation across two projects. Preventable with one Azure DevOps ticket."},
+    {icon:"doc-outdated",title:"The outdated procedure",story:"A team updates their deployment process but not the SharePoint procedure. A new joiner follows the old procedure. Their deployment fails. Half a day to diagnose why. The answer was in the procedure they had just followed.",impact:"Half a day of debugging. Preventable with one SharePoint update."},
+  ],
+
+  finalQuizLabel:"Take the awareness knowledge check",
+  finalQuizSub:"Scenario-based questions. Opens in Microsoft Forms. Your result is recorded in HR SharePoint.",
+  pbLabel:"Your progress",
+  pbPct:"% complete",
+}};
+
+// ── GERMAN (DE) ──────────────────────────────────────────
+C.de={
+  pbLabel:"Ihr Fortschritt",
+  pbPct:"% abgeschlossen",
+
+  navLabels:{
+    home:"Startseite",iso:"Warum es wichtig ist",loop:"Der Regelkreis",
+    concepts:"Schlüsselkonzepte",resp:"Deine Verantwortung",stories:"Reale Situationen",
+    docs:"Dokumentation",audits:"Audits",ref:"Referenz",
+    isms:"Informationssicherheit",hr:"HR-Schulung",quizzes:"Wissenstest",
+    soonLabel:"Demnächst"
+  },
+
+  finalQuizLabel:"Mach den Awareness-Wissenstest",
+  finalQuizSub:"Szenariobasierte Fragen. Öffnet in Microsoft Forms. Dein Ergebnis wird im HR-SharePoint erfasst.",
+
+  teams:[
+    {name:"Application",icon:"ico-team-app"},
+    {name:"Data & AI",icon:"ico-team-ai"},
+    {name:"Edge",icon:"ico-team-edge"},
+    {name:"Embedded",icon:"ico-team-embedded"},
+    {name:"Finance",icon:"ico-team-finance"},
+    {name:"HR & Administration",icon:"ico-team-hr"},
+    {name:"Information Security",icon:"ico-team-isms"},
+    {name:"Manufacturing",icon:"ico-team-manufacturing"},
+    {name:"Project Management",icon:"ico-team-pm"},
+    {name:"Quality & Compliance",icon:"ico-team-quality"},
+    {name:"Sales & Product",icon:"ico-team-sales"},
+    {name:"Cross-functional",icon:"ico-team-cross"},
+  ],
+
+  teamModules:{
+    "Application":{
+      required:[
+        {label:"Warum ISO 9001 wichtig ist",icon:"▣",sec:"iso"},
+        {label:"Die 7 Grundsätze",icon:"◉",sec:"principles"},
+        {label:"Der Regelkreis",icon:"↺",sec:"loop"},
+        {label:"Deine Rolle im QMS",icon:"◎",sec:"concepts"},
+        {label:"QMS in der Praxis",icon:"▶",sec:"stories"},
+        {label:"Dokumentation",icon:"▣",sec:"docs"},
+        {label:"Audits",icon:"◐",sec:"audits"},
+        {label:"Referenz",icon:"≡",sec:"ref"},
+      ],
+      soon:[{label:"Informationssicherheit (ISMS)",icon:"◆",sec:"isms"},{label:"Application-Team-Onboarding",icon:"◈",sec:"isms"}],
+      quizzes:["ISO 9001 Bewusstsein","Informationssicherheit Bewusstsein","HR-Schulung","Application-Team-Onboarding-Quiz"]
+    },
+    "Data & AI":{
+      required:[
+        {label:"Warum ISO 9001 wichtig ist",icon:"▣",sec:"iso"},
+        {label:"Die 7 Grundsätze",icon:"◉",sec:"principles"},
+        {label:"Der Regelkreis",icon:"↺",sec:"loop"},
+        {label:"Deine Rolle im QMS",icon:"◎",sec:"concepts"},
+        {label:"QMS in der Praxis",icon:"▶",sec:"stories"},
+        {label:"Dokumentation",icon:"▣",sec:"docs"},
+        {label:"Audits",icon:"◐",sec:"audits"},
+        {label:"Referenz",icon:"≡",sec:"ref"},
+      ],
+      soon:[{label:"Informationssicherheit (ISMS)",icon:"◆",sec:"isms"},{label:"Data & AI-Team-Onboarding",icon:"◈",sec:"isms"}],
+      quizzes:["ISO 9001 Bewusstsein","Informationssicherheit Bewusstsein","HR-Schulung","Data & AI-Team-Onboarding-Quiz"]
+    },
+    "Edge":{
+      required:[
+        {label:"Warum ISO 9001 wichtig ist",icon:"▣",sec:"iso"},
+        {label:"Die 7 Grundsätze",icon:"◉",sec:"principles"},
+        {label:"Der Regelkreis",icon:"↺",sec:"loop"},
+        {label:"Deine Rolle im QMS",icon:"◎",sec:"concepts"},
+        {label:"QMS in der Praxis",icon:"▶",sec:"stories"},
+        {label:"Dokumentation",icon:"▣",sec:"docs"},
+        {label:"Audits",icon:"◐",sec:"audits"},
+        {label:"Referenz",icon:"≡",sec:"ref"},
+      ],
+      soon:[{label:"Informationssicherheit (ISMS)",icon:"◆",sec:"isms"},{label:"Edge-Team-Onboarding",icon:"◈",sec:"isms"}],
+      quizzes:["ISO 9001 Bewusstsein","Informationssicherheit Bewusstsein","HR-Schulung","Edge-Team-Onboarding-Quiz"]
+    },
+    "Embedded":{
+      required:[
+        {label:"Warum ISO 9001 wichtig ist",icon:"▣",sec:"iso"},
+        {label:"Die 7 Grundsätze",icon:"◉",sec:"principles"},
+        {label:"Der Regelkreis",icon:"↺",sec:"loop"},
+        {label:"Deine Rolle im QMS",icon:"◎",sec:"concepts"},
+        {label:"QMS in der Praxis",icon:"▶",sec:"stories"},
+        {label:"Dokumentation",icon:"▣",sec:"docs"},
+        {label:"Audits",icon:"◐",sec:"audits"},
+        {label:"Referenz",icon:"≡",sec:"ref"},
+      ],
+      soon:[{label:"Informationssicherheit (ISMS)",icon:"◆",sec:"isms"},{label:"Embedded-Team-Onboarding",icon:"◈",sec:"isms"}],
+      quizzes:["ISO 9001 Bewusstsein","Informationssicherheit Bewusstsein","HR-Schulung","Embedded-Team-Onboarding-Quiz"]
+    },
+    "Finance":{
+      required:[
+        {label:"Warum ISO 9001 wichtig ist",icon:"▣",sec:"iso"},
+        {label:"Die 7 Grundsätze",icon:"◉",sec:"principles"},
+        {label:"Der Regelkreis",icon:"↺",sec:"loop"},
+        {label:"Deine Rolle im QMS",icon:"◎",sec:"concepts"},
+        {label:"QMS in der Praxis",icon:"▶",sec:"stories"},
+        {label:"Dokumentation",icon:"▣",sec:"docs"},
+        {label:"Audits",icon:"◐",sec:"audits"},
+        {label:"Referenz",icon:"≡",sec:"ref"},
+      ],
+      soon:[{label:"Informationssicherheit (ISMS)",icon:"◆",sec:"isms"},{label:"Finance-Team-Onboarding",icon:"◈",sec:"isms"}],
+      quizzes:["ISO 9001 Bewusstsein","Informationssicherheit Bewusstsein","HR-Schulung","Finance-Team-Onboarding-Quiz"]
+    },
+    "HR & Administration":{
+      required:[
+        {label:"Warum ISO 9001 wichtig ist",icon:"▣",sec:"iso"},
+        {label:"Die 7 Grundsätze",icon:"◉",sec:"principles"},
+        {label:"Der Regelkreis",icon:"↺",sec:"loop"},
+        {label:"Deine Rolle im QMS",icon:"◎",sec:"concepts"},
+        {label:"QMS in der Praxis",icon:"▶",sec:"stories"},
+        {label:"Dokumentation",icon:"▣",sec:"docs"},
+        {label:"Audits",icon:"◐",sec:"audits"},
+        {label:"Referenz",icon:"≡",sec:"ref"},
+      ],
+      soon:[{label:"Informationssicherheit (ISMS)",icon:"◆",sec:"isms"},{label:"HR-Team-Onboarding",icon:"◈",sec:"isms"}],
+      quizzes:["ISO 9001 Bewusstsein","Informationssicherheit Bewusstsein","HR-Schulung","HR-Team-Onboarding-Quiz"]
+    },
+    "Information Security":{
+      required:[
+        {label:"Warum ISO 9001 wichtig ist",icon:"▣",sec:"iso"},
+        {label:"Die 7 Grundsätze",icon:"◉",sec:"principles"},
+        {label:"Der Regelkreis",icon:"↺",sec:"loop"},
+        {label:"Deine Rolle im QMS",icon:"◎",sec:"concepts"},
+        {label:"QMS in der Praxis",icon:"▶",sec:"stories"},
+        {label:"Dokumentation",icon:"▣",sec:"docs"},
+        {label:"Audits",icon:"◐",sec:"audits"},
+        {label:"Referenz",icon:"≡",sec:"ref"},
+      ],
+      soon:[{label:"Informationssicherheit (ISMS)",icon:"◆",sec:"isms"},{label:"InfoSec-Team-Onboarding",icon:"◈",sec:"isms"}],
+      quizzes:["ISO 9001 Bewusstsein","Informationssicherheit Bewusstsein","HR-Schulung","InfoSec-Team-Onboarding-Quiz"]
+    },
+    "Manufacturing":{
+      required:[
+        {label:"Warum ISO 9001 wichtig ist",icon:"▣",sec:"iso"},
+        {label:"Die 7 Grundsätze",icon:"◉",sec:"principles"},
+        {label:"Der Regelkreis",icon:"↺",sec:"loop"},
+        {label:"Deine Rolle im QMS",icon:"◎",sec:"concepts"},
+        {label:"QMS in der Praxis",icon:"▶",sec:"stories"},
+        {label:"Dokumentation",icon:"▣",sec:"docs"},
+        {label:"Audits",icon:"◐",sec:"audits"},
+        {label:"Referenz",icon:"≡",sec:"ref"},
+      ],
+      soon:[{label:"Informationssicherheit (ISMS)",icon:"◆",sec:"isms"},{label:"Manufacturing-Team-Onboarding",icon:"◈",sec:"isms"}],
+      quizzes:["ISO 9001 Bewusstsein","Informationssicherheit Bewusstsein","HR-Schulung","Manufacturing-Team-Onboarding-Quiz"]
+    },
+    "Project Management":{
+      required:[
+        {label:"Warum ISO 9001 wichtig ist",icon:"▣",sec:"iso"},
+        {label:"Die 7 Grundsätze",icon:"◉",sec:"principles"},
+        {label:"Der Regelkreis",icon:"↺",sec:"loop"},
+        {label:"Deine Rolle im QMS",icon:"◎",sec:"concepts"},
+        {label:"QMS in der Praxis",icon:"▶",sec:"stories"},
+        {label:"Dokumentation",icon:"▣",sec:"docs"},
+        {label:"Audits",icon:"◐",sec:"audits"},
+        {label:"Referenz",icon:"≡",sec:"ref"},
+      ],
+      soon:[{label:"Informationssicherheit (ISMS)",icon:"◆",sec:"isms"},{label:"PM-Team-Onboarding",icon:"◈",sec:"isms"}],
+      quizzes:["ISO 9001 Bewusstsein","Informationssicherheit Bewusstsein","HR-Schulung","PM-Team-Onboarding-Quiz"]
+    },
+    "Quality & Compliance":{
+      required:[
+        {label:"Warum ISO 9001 wichtig ist",icon:"▣",sec:"iso"},
+        {label:"Die 7 Grundsätze",icon:"◉",sec:"principles"},
+        {label:"Der Regelkreis",icon:"↺",sec:"loop"},
+        {label:"Deine Rolle im QMS",icon:"◎",sec:"concepts"},
+        {label:"QMS in der Praxis",icon:"▶",sec:"stories"},
+        {label:"Dokumentation",icon:"▣",sec:"docs"},
+        {label:"Audits",icon:"◐",sec:"audits"},
+        {label:"Referenz",icon:"≡",sec:"ref"},
+      ],
+      soon:[{label:"Informationssicherheit (ISMS)",icon:"◆",sec:"isms"},{label:"Quality-Team-Onboarding",icon:"◈",sec:"isms"}],
+      quizzes:["ISO 9001 Bewusstsein","Informationssicherheit Bewusstsein","HR-Schulung","Quality-Team-Onboarding-Quiz"]
+    },
+    "Sales & Product":{
+      required:[
+        {label:"Warum ISO 9001 wichtig ist",icon:"▣",sec:"iso"},
+        {label:"Die 7 Grundsätze",icon:"◉",sec:"principles"},
+        {label:"Der Regelkreis",icon:"↺",sec:"loop"},
+        {label:"Deine Rolle im QMS",icon:"◎",sec:"concepts"},
+        {label:"QMS in der Praxis",icon:"▶",sec:"stories"},
+        {label:"Dokumentation",icon:"▣",sec:"docs"},
+        {label:"Audits",icon:"◐",sec:"audits"},
+        {label:"Referenz",icon:"≡",sec:"ref"},
+      ],
+      soon:[{label:"Informationssicherheit (ISMS)",icon:"◆",sec:"isms"},{label:"Sales-Team-Onboarding",icon:"◈",sec:"isms"}],
+      quizzes:["ISO 9001 Bewusstsein","Informationssicherheit Bewusstsein","HR-Schulung","Sales-Team-Onboarding-Quiz"]
+    },
+    "Cross-functional":{
+      required:[
+        {label:"Warum ISO 9001 wichtig ist",icon:"▣",sec:"iso"},
+        {label:"Die 7 Grundsätze",icon:"◉",sec:"principles"},
+        {label:"Der Regelkreis",icon:"↺",sec:"loop"},
+        {label:"Deine Rolle im QMS",icon:"◎",sec:"concepts"},
+        {label:"QMS in der Praxis",icon:"▶",sec:"stories"},
+        {label:"Dokumentation",icon:"▣",sec:"docs"},
+        {label:"Audits",icon:"◐",sec:"audits"},
+        {label:"Referenz",icon:"≡",sec:"ref"},
+      ],
+      soon:[{label:"Informationssicherheit (ISMS)",icon:"◆",sec:"isms"}],
+      quizzes:["ISO 9001 Bewusstsein","Informationssicherheit Bewusstsein","HR-Schulung"]
+    },
+  },
+
+  quizzes:[
+    {name:"ISO 9001 Bewusstsein",who:"Alle Mitarbeitenden",pass:"80%",lt:"Wissenstest öffnen"},
+  ],
+
+  scenarios:[
+    {situation:"Ein Lieferant ändert etwas. Niemand schreibt es auf. Monate später versagt das Produkt.",body:"Ein Lieferant passt eine Komponentenspezifikation während einer laufenden Produktion still an. Der Ingenieur, der es bemerkte, erwähnte es in einer E-Mail und machte weiter. Es kam nie ins Qualitätssystem. Sechs Monate später melden Kunden Ausfälle. Die Untersuchung versucht nachzuvollziehen, was sich wann geändert hat, aber es gibt keine Aufzeichnungen. Was ein eintägiger Fix hätte sein sollen, wird zu einer mehrwöchigen Untersuchung und einem Produktrückruf, der die Kundenbeziehung beschädigte.",fix:"Wäre die Änderung einer dokumentierten Prüfung unterzogen, festgehalten, überprüft und genehmigt worden, hätte die Untersuchung noch am selben Nachmittag begonnen und geendet.",lesson:"Informelle Kommunikation und undokumentierte Änderungen verursachen kostspielige Fehler. Jede Spezifikationsänderung muss formal aufgezeichnet, bewertet, genehmigt und kommuniziert werden."},
+    {situation:"Ein Bauprojekt nach falscher Spezifikation ausgeführt",body:"Ein Bauingenieurunternehmen erhält einen staatlichen Auftrag. Anforderungen werden in frühen Meetings mündlich vereinbart und informell festgehalten. Auf halbem Weg aktualisiert der Auftraggeber die Tragfähigkeitsspezifikation in einem formellen Nachtrag. Das Baustellenteam erhält ihn nie. Der Bau wird nach der ursprünglichen Spezifikation fortgesetzt. Der Fehler wird bei der Endabnahme entdeckt. Abriss und Neubau eines Strukturelements kostet mehr als der ursprüngliche Vertragswert.",fix:"Ein Anforderungsprüfungsprozess, bei dem jede Änderung formal erfasst, verteilt und bestätigt wird, verhindert diese Art von Fehler vor dem ersten Spatenstich.",lesson:"Mündliche Vereinbarungen sind keine Vereinbarungen. Jede Anforderungsänderung muss formell festgehalten, verteilt und bestätigt werden, bevor die Arbeit fortgesetzt wird."},
+    {situation:"Ein Lebensmittelhersteller konnte die Frage einer Aufsichtsbehörde nicht beantworten",body:"Nach einer Kundenreklamation zu einer Produktcharge wird ein Lebensmittelhersteller auditiert. Die Behörde fragt: Welcher Lieferant hat die für diese Charge verwendete Zutat geliefert, und welches Qualitätszertifikat war für diese Zutat zum Zeitpunkt des Wareneingangs gültig? Das Unternehmen kann darauf keine Auskunft geben. Die Lieferanteninformationen befinden sich in einer Excel-Datei, die zuletzt vor sechs Monaten aktualisiert wurde. Die Zertifikate werden in einem Ordner auf dem Desktop eines Mitarbeiters gespeichert. Die Behörde spricht eine formelle Beanstandung aus, da das Unternehmen die Produktsicherheit nicht nachweisen konnte.",fix:"Lieferanteninformationen und Zertifikate, die in einem kontrollierten System verwaltet werden, ermöglichen es, jede Frage zu jeder Charge innerhalb weniger Minuten zu beantworten.",lesson:"Compliance erfordert Nachweis. Aufzeichnungen sind das, was erledigte Arbeit in überprüfbare Tatsachen verwandelt. Ohne sie kann die Arbeit nicht bestätigt werden."},
+  ],
+
+  artPrinciples:[
+    {t:"p",c:"Sieben Grundsätze bilden das Fundament von ISO 9001. Jeder zeigt einen anderen Grund, warum gleichbleibende Qualität mehr als gute Absichten erfordert."},
+    {t:"principles-grid"},
+  ],
+
+  artIso:[
+    {t:"callout",v:"blue",ti:"QMS und ISO 9001: Was bedeuten sie und wie hängen sie zusammen?",c:"Ein Qualitätsmanagementsystem (QMS) ist die Art, wie ein Unternehmen seine Arbeit organisiert, um gleichbleibende Qualität zu liefern. Es ist eine Reihe von Prozessen, Aufzeichnungen, Verfahren, Richtlinien und Leitlinien, die sicherstellen, dass Dinge richtig gemacht und Probleme ordentlich behoben werden. ISO 9001 ist der internationale Standard, der die Anforderungen an ein gut geführtes QMS definiert. Zertifiziert zu werden bedeutet, dass ein unabhängiger Auditor unser System gegen diese Anforderungen geprüft und bestätigt hat, dass sie erfüllt werden. Das QMS ist das, was wir täglich betreiben. ISO 9001 liefert die Anforderungen, die unser QMS erfüllen soll."},
+    {t:"p",c:"Qualitätsprobleme haben meist dieselben Ursachen: Anforderungen, die nie schriftlich festgehalten wurden, Schritte, die unter Zeitdruck übersprungen wurden, und Probleme, die stillschweigend behoben wurden, ohne dass jemand protokolliert hat, was genau passiert ist. Ein Qualitätsmanagementsystem ist das Rahmenwerk, das diese Lücken aufdeckt, bevor sie zu hohen Kosten führen."},
+    {t:"callout",v:"blue",ti:"Was das in der Praxis bedeutet",c:"ISO 9001 wird manchmal als etwas angesehen, um das sich das Qualitätsteam vor einem jährlichen Audit kümmert. Tatsächlich handelt es sich jedoch um ein Rahmenwerk, das bestimmt, wie wir entwerfen, entwickeln, testen und liefern. Wenn es funktioniert, fällt es kaum auf. Wenn es versagt, zeigt sich das in Nacharbeiten, Eskalationen und Projekten, in denen wochenlang das neu aufgebaut wird, was eigentlich schon bekannt war."},
+    {t:"h3",c:"Was tatsächlich schiefläuft, wenn Qualitätssysteme scheitern"},
+    {t:"scenarios"},
+    {t:"callout",v:"green",ti:"Was die Zertifizierung für unser Unternehmen bedeutet",c:"Viele Kunden aus der Wirtschaft und der öffentlichen Verwaltung verlangen von ihren Lieferanten eine Zertifizierung nach ISO 9001, bevor sie einen Vertrag unterzeichnen. Unsere Zertifizierung ist eine geschäftliche Voraussetzung, die uns neue Möglichkeiten eröffnet. Um sie aufrechtzuerhalten, ist die Mitwirkung aller Mitarbeiter in allen Teams erforderlich."},
+  ],
+
+  artLoop:[
+    {t:"p",c:"Der Sinn des Systems ist folgender: Wenn etwas schiefgeht, protokolliere es, finde die Ursache heraus, behebe sie und stelle sicher, dass das nächste Team von deinen Erkenntnissen profitiert. Jeder Fehler, der auf diese Weise behandelt wird, verringert die Wahrscheinlichkeit, dass sich ein ähnlicher Fehler wiederholt."},
+    {t:"callout",v:"blue",ti:"Ein Problem zu protokollieren ist keine Bürokratie",c:"Wenn du eine NC in Azure DevOps meldest, teilst du dem System mit, dass etwas schiefgelaufen ist, und gibst ihm die Chance sicherzustellen, dass es nicht nochmal vorkommt. Diesen Schritt zu überspringen bedeutet, dass das System raten muss."},
+    {t:"loop-example"},
+    {t:"h3",c:"Plan, Do, Check, Act"},
+    {t:"p",c:"Das QMS folgt einem Kreislauf: Plan, Do, Check, Act. Jedes Projekt, jeder Prozess, jede Verbesserung folgt diesem Zyklus."},
+    {t:"pdca"},
+    {t:"h3",c:"Wo deine Aufzeichnungen gespeichert werden"},
+    {t:"table",hdr:["Was","Wo"],rows:[
+      ["Verfahren und Arbeitsanweisungen","Integriertes Managementsystem SharePoint. Immer die aktuelle Version, niemals eine lokale Kopie"],
+      ["Nichtkonformitäten","Azure DevOps, sofort als Arbeitselement protokollieren"],
+      ["Korrekturmaßnahmen","Azure DevOps, Verantwortlicher, Fälligkeitsdatum und Nachweis des Abschlusses erforderlich"],
+      ["Schulungsaufzeichnungen","HR SharePoint"],
+      ["Technische Dokumentation","DevOps Wiki"],
+      ["Kundenfeedback & Zufriedenheit","Kundenzufriedenheitsumfrage, Ergebnisse werden direkt mit Vertriebs- und Qualitätsteams geteilt"],
+    ]},
+  ],
+
+  artConcepts:[
+    {t:"h3",c:"Unsere Qualitätspolitik"},
+    {t:"callout",v:"blue",ti:"Vision",c:"Wir transformieren Industrien zur Nachhaltigkeit."},
+    {t:"bullets",items:[
+      "Aufbau vertrauensvoller, langfristiger Kundenbeziehungen durch ein tiefes Verständnis ihrer Bedürfnisse und Anforderungen",
+      "Betrieb eines Qualitätsmanagementsystems auf Basis von ISO 9001, mit dem Bekenntnis zur kontinuierlichen Verbesserung und zur Einhaltung aller anwendbaren gesetzlichen und regulatorischen Anforderungen",
+      "Digitalisierung unserer Management-, Kern- und Unterstützungsprozesse, kombiniert mit agilen Entwicklungsmethoden und Automatisierung der Qualitätssicherung zur Minimierung von Fehlern und Aufrechterhaltung hoher Effizienz",
+      "Unsere Mitarbeitenden als wertvollstes Kapital, Respekt für individuelle Bedürfnisse, und Schaffung inspirierender Teamumgebungen mit kontinuierlichen Möglichkeiten zur persönlichen Weiterentwicklung",
+    ]},
+    {t:"callout",v:"blue",ti:"Mission",c:"Wir befähigen unsere Mitarbeitenden, Wandel voranzutreiben, indem wir erstklassige Technologie einsetzen."},
+    {t:"p",c:"Die vollständige Qualitätspolitik befindet sich im Integrierten Managementsystem SharePoint. Du solltest wissen, wofür sie steht, und erklären können, wie sie sich auf deine eigene Arbeit bezieht."},
+    {t:"h3",c:"Begriffe, die dir begegnen werden"},
+    {t:"p",c:"Ein paar Begriffe, die im Training und in der täglichen Qualitätsarbeit regelmäßig vorkommen."},
+    {t:"concept-cards",items:[
+      {icon:"quality",title:"Qualität",body:"Das liefern, was du mit dem Kunden vereinbart hast. Zuverlässig, beständig, jedes Mal. Bei Qualität geht es darum, verlässlich zu sein."},
+      {icon:"nc",title:"Nichtkonformität (NC)",body:"Wenn etwas eine festgelegte Anforderung, einen Test, einen Schritt oder eine Kundenerwartung nicht erfüllt, wird ein NC gemeldet. Auf diese Weise lernt das System dazu. Das ist vorgesehen."},
+      {icon:"action",title:"Korrekturmaßnahme",body:"Eine Maßnahme, die die eigentliche Ursache eines Problems beseitigt, sodass es nicht wieder auftreten kann. Sie hat einen Verantwortlichen, ein Fälligkeitsdatum und einen Nachweis dafür, dass sie tatsächlich funktioniert hat."},
+      {icon:"evidence",title:"Nachweis",body:"Im Qualitätswesen gilt: Was nicht aufgezeichnet ist, hat nicht stattgefunden. Nachweis verwandelt eine mündliche Vereinbarung in eine überprüfbare Tatsache, und ein geschlossenes Ticket in ein gelöstes Problem. Jede Aufzeichnung, die du führst, ist der Beweis, dass die Arbeit richtig erledigt wurde."},
+    ]},
+    {t:"h3",c:"Was von dir erwartet wird"},
+    {t:"p",c:"Die Arbeit mit dem System lässt sich auf drei Gewohnheiten reduzieren: Verwende die aktuelle Version der Anleitungen aus dem IMS-SharePoint, führe deine Unterlagen lückenlos und melde Probleme, sobald Du sie entdeckst. Jeder protokollierte Fehler trägt zur Verbesserung des Systems bei. Es wird erwartet, dass Probleme gemeldet werden."},
+    {t:"p",c:"Wenn dir eine Korrekturmaßnahme zugewiesen wird, halte die Frist ein. Sollte etwas dazwischenkommen, gib dies vor Ablauf der Frist bekannt."},
+    {t:"h3",c:"Wo Deine Verantwortung endet"},
+    {t:"callout",v:"green",ti:"",c:"Die Verwaltung des Qualitätssystems und die Erstellung von Verfahren obliegen dem Qualitätsteam. Du bist für deine eigene Arbeit verantwortlich: Du musst diese ordnungsgemäß ausführen, ehrlich dokumentieren und Probleme melden, sobald du diese feststellen."},
+  ],
+
+  artResp:[],
+
+  artStories:[
+    {t:"p",c:"Drei Situationen aus realen Engineering- und Technologieteams. Die Details wurden geändert, die Muster sind wiedererkennbar. Jedes Beispiel verdeutlicht dasselbe: eine Lücke in der Systemgestaltung und was nötig war, um sie zu schließen."},
+    {t:"story",idx:0},{t:"story",idx:1},{t:"story",idx:4},
+    {t:"callout",v:"green",ti:"Das Muster",c:"In jedem Fall war die Systemlücke das Problem, nicht die Person. Und in jedem Fall war die Lösung unkompliziert, sobald jemand wirklich danach gesucht hat."},
+  ],
+
+  artDocs:[
+    {t:"p",c:"Über die Dokumentation wird ständig geklagt. Sie ist zudem der am meisten missverstandene Teil jedes Qualitätssystems. Die Kosten, die durch ihr Weglassen entstehen, zeigen sich selten sofort. Sie treten meist erst Monate später zutage, wenn ein Projekt ins Stocken gerät, derselbe Fehler erneut auftritt oder ein neuer Mitarbeiter die falschen Vorgehensweisen befolgt."},
+    {t:"h3",c:"Zwei Typen, die für dich am wichtigsten sind"},
+    {t:"table",hdr:["Typ","Was es erfasst","Wo es gespeichert wird"],rows:[
+      ["Verfahren","Wie ein Vorgang Schritt für Schritt abläuft, damit alle ihn auf die gleiche Weise ausführen","Integriertes Managementsystem SharePoint, immer die aktuelle Version"],
+      ["NC-Aufzeichnungen","Was ist passiert, warum, was wurde getan, und Nachweis dass es funktioniert hat","Azure DevOps, jedes NC-Ticket, offen oder geschlossen"],
+    ]},
+    {t:"h3",c:"Was gute Dokumentation tatsächlich beantwortet"},
+    {t:"p",c:"Eine gute Dokumentation beantwortet eine Frage: Was müsste jemand wissen, um diese Arbeit ohne mich fortzusetzen? Wenn ein Kollege nahtlos daran anknüpfen könnte, ist sie vollständig."},
+    {t:"h3",c:"Drei Situationen, in denen schlechte Dokumentation echte Kosten verursacht hat"},
+    {t:"docCosts"},
+    {t:"callout",v:"orange",ti:"Wenn sich ein Verfahren ändert",c:"Benachrichtige das Qualitätsteam. SharePoint selbst zu aktualisieren riskiert einen Versionskonflikt. Ein Verfahren, das nicht mehr der tatsächlichen Praxis entspricht, ist eine Nichtkonformität, die nur darauf wartet, entdeckt zu werden."},
+  ],
+
+  artAudits:[
+    {t:"p",c:"Ein Audit ist eine strukturierte Überprüfung, ob das Qualitätssystem wie vorgesehen funktioniert. Man kann es sich als den „Check“-Schritt im PDCA-Zyklus vorstellen, der auf die gesamte Organisation angewendet wird."},
+    {t:"table",hdr:["Typ","Wer","Zweck"],rows:[
+      ["Internes Audit","Geschulte interne Kollegen","Prüfen, ob unsere eigenen Prozesse korrekt befolgt werden. Geplanter Zeitplan."],
+      ["Extern / Überwachungsaudit","Unabhängige Zertifizierungsstelle","Überprüfen, ob wir die ISO 9001-Anforderungen noch erfüllen. Jährlich."],
+      ["Kundenaudit","Ein Kunde","Bestätigen, dass wir seine Qualitätserwartungen erfüllen."],
+    ]},
+    {t:"h3",c:"Mit wem Auditoren tatsächlich sprechen"},
+    {t:"p",c:"Externe Auditoren sprechen in erster Linie mit den Qualitäts- und Compliance-Teams. Sie überprüfen Aufzeichnungen, Verfahren und NC-Tickets, keine einzelnen Mitarbeitenden. Für die meisten bei ML!PA bedeutet ein externes Audit, dass sich in deinem Alltag nichts ändert. Wenn du direkt in ein Auditgespräch einbezogen wirst, zeige die Aufzeichnungen für deine Arbeit und erkläre, wie du die Verfahren deines Teams befolgst. Das ist es, wonach Auditoren suchen."},
+    {t:"h3",c:"Wonach sie suchen"},
+    {t:"findings"},
+    {t:"callout",v:"blue",ti:"Der einfachste Weg, auditbereit zu sein",c:"Befolge deine Verfahren. Führe vollständige Aufzeichnungen. Protokolliere Probleme, wenn du sie siehst. Das ist alles."},
+    {t:"finalQuiz"},
+  ],
+
+  artRef:[
+    {t:"callout",v:"blue",ti:"Für Neugierige",c:"Nichts in diesem Abschnitt wird für das Quiz oder deine tägliche Arbeit benötigt."},
+    {t:"h3",c:"ISO 9001 · Alle Klauseln"},
+    {t:"clauseTable"},
+    {t:"h3",c:"Der 8D-Bericht"},
+    {t:"p",c:"Wenn eine Nichtkonformität wiederkehrend ist, kundenseitig oder eine komplexe Grundursache hat, verwendet ML!PA den 8D-Bericht."},
+    {t:"eightd"},
+  ],
+
+  // ── DATA ─────────────────────────────────────────────
+  principles:[
+    {num:"1",title:"Kundenorientierung",line:"Qualität wird dadurch definiert, ob sie Kundenanforderungen erfüllt.",practice:["Anforderungsmanagement","Qualitätssicherung","Überwachung der Kundenzufriedenheit"]},
+    {num:"2",title:"Führung",line:"Führungskräfte auf allen Ebenen geben den Ton an. Qualität folgt der Ausrichtung.",practice:["Qualitätspolitik","Managementbekenntnis zu Qualitätszielen","Klare Verantwortlichkeiten und Zuständigkeiten","Jährliches Management-Review"]},
+    {num:"3",title:"Einbeziehung von Personen",line:"Die Menschen, die die Arbeit erledigen, sehen Probleme zuerst. Jeder Beitrag zählt.",practice:["Individueller Beitrag jedes Mitarbeitenden"]},
+    {num:"4",title:"Prozessorientierter Ansatz",line:"Vernetzte und standardisierte Prozesse führen zu einheitlichen, vorhersehbaren Ergebnissen.",practice:["Regelmäßig aktualisierte Prozessdokumentation","Konsequente Prozessumsetzung in allen Teams"]},
+    {num:"5",title:"Kontinuierliche Verbesserung",line:"Besser werden ist im System verankert. Jede Lektion aus einem Fehler fließt in den nächsten Zyklus ein.",practice:["Regelmäßige Verbesserungsmeetings in Teams","Regelmäßige interne Audits","Zentrales Backlog für Nichtkonformitäten mit konsequenter Nachverfolgung"]},
+    {num:"6",title:"Risikobasiertes Denken",line:"Risiken früh erkennen und angehen, statt erst auf Probleme zu reagieren.",practice:["Risikobewertung im Projektmanagement","SWOT-Analyse in der strategischen Planung"]},
+    {num:"7",title:"Faktengestützte Entscheidungsfindung",line:"Entscheidungen sollten auf Daten und verifizierten Ergebnissen basieren.",practice:["Testen mit konsistenter Ergebnisdokumentation","KPI-Rahmen und regelmäßige Trendüberwachung"]},
+  ],
+
+  pdca:[
+    {letter:"P",bg:"#1B3FA0",word:"Plan",desc:"Maßnahmen definieren. Ziele setzen, Verantwortliche benennen, Risiken identifizieren."},
+    {letter:"D",bg:"#E8192C",word:"Do",desc:"Korrektur umsetzen. Verfahren befolgen. Nachweis aufzeichnen."},
+    {letter:"C",bg:"#0F766E",word:"Check",desc:"Testen ob es funktioniert. Audit. Messen. Feedback prüfen."},
+    {letter:"A",bg:"#16A34A",word:"Act",desc:"Funktioniert: standardisieren. Fehlgeschlagen: zurück zu Planen."},
+  ],
+
+  loopExample:{
+    label:"Reales Beispiel, Firmware-Release bei ML!PA",
+    steps:[
+      {bg:"#1B3FA0",emoji:"▣",label:"Planen",desc:"Anforderungen in Azure DevOps vor Sprint-Start dokumentiert"},
+      {bg:"#E8192C",emoji:"◈",label:"Durchführen",desc:"Code geschrieben, geprüft (4-Augen), gemäß Verfahren getestet"},
+      {bg:"#0F766E",emoji:"◐",label:"Prüfen",desc:"NC gemeldet: Release-Notiz fehlt im DevOps Wiki"},
+      {bg:"#16A34A",emoji:"✓",label:"Handeln",desc:"Verfahren aktualisiert: Release-Notizen vor Merge erforderlich"},
+    ]
+  },
+
+  ncSteps:[
+    {num:"1",label:"Protokollieren",sub:"Azure DevOps · sofort"},
+    {num:"2",label:"Eindämmen",sub:"Ausbreitung stoppen"},
+    {num:"3",label:"Grundursache",sub:"Warum, nicht Was"},
+    {num:"4",label:"Beheben",sub:"Verantwortlicher + Frist"},
+    {num:"5",label:"Nachweis",sub:"Beweis, dass es funktioniert"},
+    {num:"6",label:"Abschluss",sub:"Compliance-Team bestätigt"},
+  ],
+
+  ncRoles:[],
+
+  findings:[
+    {type:"Schwere NC",color:"var(--red-light)",border:"#FECACA",badgeColor:"var(--red)",desc:"Eine wesentliche Anforderung wird nicht erfüllt. Dringende Korrekturmaßnahme erforderlich."},
+    {type:"Geringfügige NC",color:"var(--amber-light)",border:"#FDE68A",badgeColor:"var(--amber)",desc:"Ein kleinerer oder isolierter Verstoß. Korrekturmaßnahme erforderlich."},
+    {type:"Beobachtung",color:"var(--blue-pale)",border:"var(--blue-light)",badgeColor:"var(--blue)",desc:"Kein formelles Versagen, aber es lohnt sich zu beheben. Kann zu einer Verbesserungsaufgabe werden."},
+    {type:"Positiver Befund",color:"var(--green-light)",border:"#BBF7D0",badgeColor:"var(--green)",desc:"Gute Praxis festgestellt. Wert, mit dem Team zu teilen."},
+  ],
+
+  eightd:[
+    {d:"D1",title:"Team zusammenstellen",desc:"Die richtigen Personen zusammenbringen. Funktionsübergreifend ist besser."},
+    {d:"D2",title:"Problem beschreiben",desc:"Spezifisch, messbar, mit Nachweis. Nicht 'Login funktioniert nicht', 'Login schlägt fehl, wenn E-Mail + enthält in v2.3.1'."},
+    {d:"D3",title:"Sofortige Eindämmung",desc:"Ausbreitung des Problems sofort stoppen. In Azure DevOps protokollieren."},
+    {d:"D4",title:"Grundursache",desc:"5 Warum oder Ursache-Wirkungs-Diagramm. Bei der systemischen Lücke aufhören, nicht bei einem Personennamen. Mit Nachweis belegt."},
+    {d:"D5",title:"Dauerhafte Korrekturmaßnahmen",desc:"Genannter Verantwortlicher. Echtes Fälligkeitsdatum. Überprüfungsmethode vor Umsetzungsbeginn definiert."},
+    {d:"D6",title:"Umsetzen und validieren",desc:"Umsetzen. Überprüfen ob es funktioniert hat. Nachweis erforderlich vor dem Abschluss."},
+    {d:"D7",title:"Wiederholung verhindern",desc:"Verfahren im Integrierten Managementsystem SharePoint aktualisieren. Checklisten aktualisieren. Das System reparieren."},
+    {d:"D8",title:"Anerkennen und abschließen",desc:"Lektionen dokumentieren. Mit dem Team teilen. Aufzeichnung in Azure DevOps schließen."},
+  ],
+
+  clauses:[
+    {num:"1",group:"intro",text:"Anwendungsbereich",subs:[]},
+    {num:"2",group:"intro",text:"Normative Verweise",subs:[]},
+    {num:"3",group:"intro",text:"Begriffe und Definitionen",subs:[]},
+    {num:"4",group:"op",text:"Kontext der Organisation",subs:[
+      {num:"4.1",text:"Verstehen der Organisation und ihres Kontexts"},
+      {num:"4.2",text:"Verstehen der Erfordernisse und Erwartungen interessierter Parteien"},
+      {num:"4.3",text:"Festlegen des Anwendungsbereichs des QMS"},
+      {num:"4.4",text:"QMS und seine Prozesse"},
+    ]},
+    {num:"5",group:"op",text:"Führung",subs:[
+      {num:"5.1",text:"Führung und Verpflichtung"},
+      {num:"5.2",text:"Qualitätspolitik, muss dokumentiert, kommuniziert und von allen Mitarbeitenden verstanden werden"},
+      {num:"5.3",text:"Rollen, Verantwortlichkeiten und Befugnisse in der Organisation"},
+    ]},
+    {num:"6",group:"op",text:"Planung",subs:[
+      {num:"6.1",text:"Maßnahmen zum Umgang mit Risiken und Chancen"},
+      {num:"6.2",text:"Qualitätsziele und Planung zu deren Erreichung"},
+      {num:"6.3",text:"Planung von Änderungen"},
+    ]},
+    {num:"7",group:"op",text:"Unterstützung",subs:[
+      {num:"7.1",text:"Ressourcen, Personen, Infrastruktur, Umgebung, Überwachung und Messung"},
+      {num:"7.2",text:"Kompetenz, Mitarbeitende müssen für ihre Aufgaben qualifiziert sein"},
+      {num:"7.3",text:"Bewusstsein, Jeder Mitarbeitende muss die Qualitätspolitik, seine Qualitätsziele, seinen Beitrag und die Folgen der Nichtbefolgung von Prozessen kennen"},
+      {num:"7.4",text:"Kommunikation, intern und extern"},
+      {num:"7.5",text:"Dokumentierte Information, Steuerung und Pflege von Aufzeichnungen und Verfahren"},
+    ]},
+    {num:"8",group:"op",text:"Betrieb",subs:[
+      {num:"8.1",text:"Betriebliche Planung und Steuerung"},
+      {num:"8.2",text:"Anforderungen an Produkte und Dienstleistungen, einschließlich Kundenkommunikation und -überprüfung"},
+      {num:"8.3",text:"Design und Entwicklung"},
+      {num:"8.4",text:"Steuerung extern bereitgestellter Prozesse, Produkte und Dienstleistungen, Lieferantenmanagement"},
+      {num:"8.5",text:"Produktion und Dienstleistungserbringung, einschließlich 8.5.3 Kundeneigentum (Rückverfolgbarkeit, Schutz)"},
+      {num:"8.6",text:"Freigabe von Produkten und Dienstleistungen"},
+      {num:"8.7",text:"Steuerung nichtkonformer Ergebnisse, der NC-Prozess"},
+    ]},
+    {num:"9",group:"op",text:"Bewertung der Leistung",subs:[
+      {num:"9.1",text:"Überwachung, Messung, Analyse und Bewertung, einschließlich Kundenzufriedenheit"},
+      {num:"9.2",text:"Internes Audit"},
+      {num:"9.3",text:"Managementbewertung"},
+    ]},
+    {num:"10",group:"op",text:"Verbesserung",subs:[
+      {num:"10.1",text:"Allgemeines"},
+      {num:"10.2",text:"Nichtkonformität und Korrekturmaßnahme, der vollständige NC-Prozess"},
+      {num:"10.3",text:"Kontinuierliche Verbesserung"},
+    ]},
+  ],
+
+  stories:[
+    {title:"Der Fehler, der zweimal behoben wurde",badge:"Situation 1 · Engineering",
+      bad:"Eine Entwicklerin entdeckt beim Testen einen Fehler. Er ist nicht blockierend, die Behebung geht schnell, und der Sprint ist voll ausgelastet. Sie behebt den Fehler, die Tests laufen durch, und die Arbeit geht weiter. Kein Ticket. Keine Ursachenanalyse. Keine Aufzeichnung. Sechs Monate später stößt ein anderer Entwickler in einem anderen Modul auf dieselbe Fehlerklasse. Er untersucht von vorne, dieselben Symptome, dieselbe Lösung, dieselben zwei Tage Arbeit. Niemand stellt die Verbindung her, weil es nichts zu verbinden gibt.",
+      immediate:"Der zweite Entwickler erstellte ein Ticket, als er das Muster bemerkte. Der erste Fix wurde teilweise aus der Versionshistorie rekonstruiert, aber der ursprüngliche Kontext, warum der Fehler auftrat, welche Bedingungen vorlagen, war verloren.",
+      rc:"Erster Versuch: „Der Entwickler hat den Fehler nicht protokolliert.“ Der Qualitätsleiter widersprach: Das sei eine Beschreibung des Geschehens, nicht der Grund dafür. Zweiter Versuch: Im Team gab es keine einheitliche Regelung darüber, wann ein Ticket erforderlich war. Kleinere Korrekturen während der Entwicklung wurden informell als den Aufwand nicht wert angesehen. Diese Regelung wurde nie schriftlich festgehalten oder hinterfragt, bis sie Kosten verursachte.",
+      fix:"Jeder während der Entwicklung behobene Fehler muss vor dem Zusammenführen (Merge) des Branches durch ein Ticket erfasst sein, unabhängig von seinem Umfang. Diese Anforderung wurde in die Definition of Done aufgenommen und wird stichprobenartig in den Sprint Reviews überprüft. Die Einhaltung wurde über zwei aufeinanderfolgende Sprints hinweg mit einer Compliance-Quote von 100 % verifiziert. Das Ticket wurde geschlossen.",
+      acceptance:"",
+      lesson:"Ein Fix ohne Nachweis ist kein Fix. Es ist eine Verzögerung. Dasselbe Problem taucht wieder auf, und beim nächsten Mal kostet es mehr.",
+      whys:[
+        {q:"Warum trat derselbe Fehler zweimal auf?",a:"Der erste Fix wurde nie aufgezeichnet, daher gab es keinen Auslöser für eine Überprüfung verwandter Module."},
+        {q:"Warum nicht aufgezeichnet?",a:"Kleine Defekte, die während der Entwicklung behoben wurden, galten nicht als protokollierungswürdig."},
+        {q:"Warum galten sie nicht als protokollierungswürdig?",a:"Das Team hatte keine Definition dafür, was ein Ticket erfordert, Einzelpersonen füllten die Lücke mit eigenem Urteil."},
+        {q:"Warum gab es keine Definition?",a:"Der Prozess beschrieb, wie ein Ticket erstellt wird, aber nie den Schwellenwert, ab dem eines erforderlich ist."},
+        {q:"Grundursache",a:"Es gab keine gemeinsame Definition eines protokollierungspflichtigen Defekts, individuelles Urteil ersetzte den Prozess, und das System lernte nichts aus dem ersten Fehler.",rc:true},
+      ]
+    },
+    {title:"Beide Seiten hatten Recht. Das war das Problem.",badge:"Situation 2 · Lieferung",
+      bad:"Ein Team verbringt sechs Wochen mit dem Aufbau eines Integrationsmoduls. Der Start verlief reibungslos, die Kommunikation war gut und alle waren sich einig. Bei der Lieferung widerspricht der Kunde, die Fehlerbehandlung entspricht nicht seiner Betriebsumgebung und der Authentifizierungsansatz steht in Konflikt mit seinem Sicherheitssetup. Das Team erklärt, was vereinbart wurde. Der Kunde erklärt, was er meinte. Beide sagen die Wahrheit. Niemand hat ein unterschriebenes Dokument. Die Nacharbeit dauert drei Wochen und kostet mehr als die ursprüngliche Marge.",
+      immediate:"Die Arbeit wurde unterbrochen. Es fand eine gemeinsame Sitzung statt, nicht um Schuldzuweisungen zu machen, sondern um die tatsächlichen Anforderungen beider Seiten festzuhalten. Das dauerte einen ganzen Tag. Es gab mehr Unstimmigkeiten als erwartet. Die Arbeit wurde erst wieder aufgenommen, nachdem beide Seiten eine schriftliche Spezifikation unterzeichnet hatten.",
+      rc:"Das Projekt basierte auf einem gemeinsamen Verständnis, nicht auf einer gemeinsamen Dokumentation. Beide Seiten waren nach dem Kickoff sicher zu wissen, was entwickelt werden sollte. Dabei hatte jede Seite in einem anderen Punkt Recht. Die Diskrepanz wurde erst bei der Übergabe sichtbar – zu diesem Zeitpunkt lagen bereits sechs Wochen Arbeit zwischen dem Missverständnis und der Behebung des Problems.",
+      fix:"Eine Vorlage für die Anforderungsabnahme umfasst nun den Umfang, die Rahmenbedingungen, die Abnahmekriterien und ausdrückliche Ausschlüsse; sie wird beim Projektstart ausgefüllt und vor Beginn der Arbeiten unterzeichnet. Sie wurde bei drei nachfolgenden Projekten eingesetzt, ohne dass es in den darauf folgenden 12 Monaten zu Streitigkeiten bezüglich der Lieferung kam. Ihre Wirksamkeit wurde bei der Managementbewertung bestätigt.",
+      acceptance:"",
+      lesson:"Die Einigkeit im Raum verschwindet in dem Moment, in dem die Leute ihn verlassen. Das Dokument ist keine Bürokratie, es ist die einzige Version der Wahrheit, die das Meeting überlebt.",
+      whys:[
+        {q:"Warum wurde die Lieferung beanstandet?",a:"Die Abnahmekriterien wurden vor Beginn der Arbeiten weder schriftlich festgehalten noch vereinbart."},
+        {q:"Warum nicht schriftlich?",a:"Das Team hielt Meeting-Notizen und gegenseitiges Vertrauen für ausreichend."},
+        {q:"Warum galt gemeinsames Vertrauen als ausreichend?",a:"Kein Verfahren erforderte eine Freigabe vor Entwicklungsbeginn, Kickoff-Meetings waren das de-facto-Gate."},
+        {q:"Warum waren Kickoff-Meetings das einzige Gate?",a:"Der Projektinitiierungsprozess wurde nie überprüft, um einen formellen Anforderungsvereinbarungsschritt einzuschließen."},
+        {q:"Grundursache",a:"Die Arbeit startete auf Basis gegenseitigen Vertrauens statt dokumentierter Vereinbarung, und dieses Vertrauen schwand im Laufe von sechs Wochen paralleler Auslegung stillschweigend.",rc:true},
+      ]
+    },
+    {title:"Eine kleine Prozessanpassung. Drei Monate Stille. Dann eine Kundenbeschwerde.",badge:"Situation 3 · Prozess",
+      bad:"Zwei Ingenieure einigen sich auf eine kleine Änderung eines Produktionsprozesses, eine Anpassung eines Konfigurationsparameters, die den Build schneller macht. Es ist eine sinnvolle Änderung. Sie testen sie. Sie funktioniert. Sie setzen sie an einem Dienstag um und machen weiter. Kein Änderungsantrag. Keine Qualitätsfreigabe. Drei Monate lang ist alles in Ordnung. Dann beginnt ein spezifischer Grenzfall im Feld zu versagen. Die Untersuchung dauert zwei Wochen. Die Änderung wird schließlich auf diesen Dienstag zurückgeführt. Es gibt keinen Nachweis, wer entschieden hat, warum, oder ob es über den ersten Test hinaus validiert wurde.",
+      immediate:"Der Parameter wurde zurückgesetzt. Betroffene Ausgaben wurden überprüft. Eine manuelle Verifikation der letzten Produktion wurde durchgeführt.",
+      rc:"Das Änderungsmanagementverfahren deckte formelle Änderungsanträge ab, sagte aber nichts über Parameter-Anpassungen durch Ingenieure. Die Lücke war nicht absichtlich, niemand hatte daran gedacht, sie zu definieren.",
+      fix:"Das Änderungsmanagementverfahren wurde aktualisiert, um ausdrücklich alle Prozessparameteränderungen abzudecken. Ein einfaches einseitiges Formular wurde für kleinere Änderungen mit 24-Stunden-Bearbeitungszeit eingeführt.",
+      acceptance:"Kein Prozessparameter wird ohne einen abgeschlossenen Änderungsantrag geändert, unabhängig davon, wer ihn initiiert oder wie klein er erscheint.",
+      lesson:"Die Änderungen, die den Prozess umgehen, sind nie die, die sich zum Zeitpunkt riskant anfühlen. Sie fühlen sich offensichtlich, schnell und sicher an, bis sie es nicht mehr sind.",
+      whys:[
+        {q:"Warum wurde die Änderung nicht zur Prüfung eingereicht?",a:"Die Ingenieure glaubten, Parameteranpassungen seien Ermessenssache der Technik, nicht dem Änderungsmanagement unterworfen."},
+        {q:"Warum glaubten sie das?",a:"Das Verfahren definierte seinen eigenen Geltungsbereich nicht, es beschrieb nur den Prozess für bereits eingereichte Änderungen."},
+        {q:"Warum war der Geltungsbereich nicht definiert?",a:"Das Verfahren wurde nur für große Änderungen geschrieben, kleinere Anpassungen wurden nie besprochen."},
+        {q:"Warum wurden kleinere Anpassungen nicht besprochen?",a:"Das Verfahren wurde von der Qualitätsfunktion ohne Einbezug der Technik verfasst, die Arten von Änderungen, die Ingenieure tatsächlich vornehmen, standen nie zur Diskussion."},
+        {q:"Grundursache",a:"Das Änderungskontrollverfahren hatte keine definierte Untergrenze, alles unterhalb einer 'großen Änderung' lag standardmäßig außerhalb, unabhängig vom Risiko.",rc:true},
+      ]
+    },
+    {title:"Alle wussten es. Außer der Person, die es brauchte.",badge:"Situation 4 · Dokumentation, in Bearbeitung",
+      bad:"Ein Team aktualisiert seinen Deployment-Prozess nach einem schmerzhaften Vorfall. Der neue Prozess ist besser, sauberer, mit einem zusätzlichen Validierungsschritt, der den ursprünglichen Fehler erkannt hätte. Das Team wird gebrieft, die Gewohnheiten ändern sich, und die Dinge verbessern sich. Drei Monate später kommt eine neue Ingenieurin ins Team. Sie liest das Verfahren im Dokumentationssystem. Es beschreibt den alten Prozess. Sie befolgt ihn. Ihr Deployment schlägt auf dieselbe Weise fehl wie beim ursprünglichen Vorfall. Es dauert einen halben Tag zur Diagnose. Das Verfahren war seit vor dem Vorfall, der die Prozessänderung ausgelöst hatte, nicht aktualisiert worden.",
+      immediate:"Das Verfahren wurde noch am selben Tag aktualisiert. Die neue Ingenieurin wurde von einem erfahrenen Kollegen durch den aktuellen Prozess geführt. Eine Überprüfung anderer Verfahren fand zwei weitere, die ähnlich veraltet waren.",
+      rc:"Das Team behandelte Prozessverbesserung und Dokumentationsaktualisierung als separate Aktivitäten. Als sich der Prozess änderte, wurde die Aktualisierung des Verfahrens als Verantwortung von jemandem angenommen. Es war niemandes formal zugewiesene Verantwortung. Die zwei anderen veralteten Verfahren deuten darauf hin, dass dies systemisch ist.",
+      fix:"Ein Dokumentationsaktualisierungsschritt wird zur Vorfallabschluss-Checkliste hinzugefügt, kein Vorfallticket kann als erledigt markiert werden, ohne zu bestätigen, dass das relevante Verfahren die aktuelle Praxis widerspiegelt. Eine vierteljährliche Verfahrensüberprüfung mit benannten Verantwortlichen pro Verfahren wird ebenfalls ausgearbeitet. Beide sind in Bearbeitung.",
+      acceptance:"Korrekturmaßnahme noch nicht verifiziert. Checklisten-Update in Bearbeitung. Verfahrensverantwortliche werden finalisiert. Ticket bleibt offen bis zum ersten vierteljährlichen Überprüfungszyklus.",
+      lesson:"Ein Prozess, der in den Köpfen der Menschen lebt, ist kein Prozess. In dem Moment, in dem jemand Neues beitritt, wird er zur Falle.",
+      whys:[
+        {q:"Warum befolgte die neue Ingenieurin den falschen Prozess?",a:"Das Verfahren im Dokumentationssystem beschrieb den alten Prozess."},
+        {q:"Warum wurde das Verfahren nicht aktualisiert?",a:"Kein Schritt im Vorfallworkflow erforderte eine Verfahrensaktualisierung vor dem Abschluss."},
+        {q:"Warum war es nicht erforderlich?",a:"Prozessänderung und Dokumentationsaktualisierung wurden als separate Aktivitäten ohne erzwungene Verbindung behandelt."},
+        {q:"Warum wurden sie als separat behandelt?",a:"Die Vorfallabschluss-Checkliste deckte nur den technischen Fix ab, die Dokumentation wurde als selbstverständlich angesehen."},
+        {q:"Grundursache",a:"Der Vorfallabschlussprozess hatte kein Dokumentations-Gate, Verfahren und Praxis konnten stillschweigend auseinanderdriften, jedes Mal wenn ein Prozess verbessert wurde.",rc:true},
+      ]
+    },
+    {title:"Das Ticket wurde geschlossen. Das Problem nicht.",badge:"Situation 3 · Qualitätsprozess",
+      bad:"Ein NC-Ticket wird nach einem wiederkehrenden Integrationsfehler erstellt. Der unmittelbare Fix funktioniert, der Fehler stoppt, der Kunde ist zufrieden, der Sprint geht weiter. Das Ticket wird als erledigt markiert. Keine Grundursache dokumentiert. Keine Korrekturmaßnahme definiert. Acht Wochen später tritt dieselbe Fehlerklasse in einem anderen Projekt auf. Bis dahin haben zwei Projekte und zwei Teams für dieselbe Ursache bezahlt, und der Qualitätsbeauftragte muss dem Kunden erklären, warum dasselbe Problem zweimal aufgetreten ist.",
+      immediate:"Das zweite Ticket wurde mit dem ersten verknüpft und beide wurden gemeinsam überprüft. Das erste Ticket wurde wieder geöffnet, da es ohne Abschluss der erforderlichen Schritte geschlossen worden war. Der Kunde wurde informiert, dass eine systemische Korrekturmaßnahme definiert wurde.",
+      rc:"Das Team verstand unter „erledigt“, dass das unmittelbare Problem gelöst war. Der Unterschied zwischen einer Korrektur (Behebung dieses Einzelfalls) und einer Korrekturmaßnahme (Verhinderung eines erneuten Auftretens) war nie ausdrücklich kommuniziert worden. Die NC-Vorlage sah keine Felder für die Grundursache oder Korrekturmaßnahmen vor; diese waren optional.",
+      fix:"Pflichtfelder wurden zur NC-Vorlage hinzugefügt: Ursachenanalyse, Korrekturmaßnahme, Verantwortlicher, Fälligkeitsdatum. Optional wurde obligatorisch. Der Prozessverantwortliche definiert die Korrekturmaßnahme. Das Qualitätsmanagement unterstützt den Prozess und stellt sicher, dass die richtigen Nachweise vorliegen, bevor das Ticket geschlossen werden kann.",
+      acceptance:"Vorlage aktualisiert und implementiert. Freigabe durch den Qualitätsverantwortlichen für die ersten fünf im Rahmen des neuen Prozesses geschlossenen Tickets bestätigt. Nachverfolgung nach 60 Tagen: keine erneuten Fälle von Tickets, die ohne Ermittlung der Grundursache geschlossen wurden. Wirksamkeit bestätigt. Ticket geschlossen.",
+      lesson:"Das Schließen eines Tickets bedeutet nicht automatisch, dass die Ursache des Problems beseitigt wurde. Das Ticket dokumentiert den Vorgang, die Korrekturmaßnahme verhindert Wiederholungen. Wird eine Anforderung nicht ausdrücklich im Template festgelegt, erfolgt ihre Umsetzung nicht konsistent.",
+      whys:[
+        {q:"Warum trat derselbe Fehler erneut auf?",a:"Die Grundursache wurde im ersten Ticket nie identifiziert oder behoben."},
+        {q:"Warum wurde die Grundursache nicht identifiziert?",a:"Das Ticket wurde geschlossen, sobald der unmittelbare Fix bestätigt war, eine Grundursachenanalyse war nicht erforderlich."},
+        {q:"Warum war sie nicht erforderlich?",a:"Die NC-Vorlage behandelte Grundursache und Korrekturmaßnahme als optionale Felder."},
+        {q:"Warum waren sie optional?",a:"Die Vorlage war auf Geschwindigkeit ausgelegt, die Annahme war, dass Teams bei Bedarf Tiefe hinzufügen würden."},
+        {q:"Grundursache",a:"Der NC-Prozess hatte keine verbindlichen Abschlusskriterien, ein Ticket konnte als erledigt markiert werden, mit nur einem Fix und ohne systemisches Lernen.",rc:true},
+      ]
+    },
+  ],
+
+  docCosts:[
+    {icon:"doc-pause",title:"Das unterbrochene Projekt",story:"Ein Entwickler verlässt ein Projekt auf halbem Weg. Drei Monate später wird die Arbeit an einen neuen Ingenieur übergeben. Das DevOps Wiki wurde nicht aktualisiert. Eine kritische HW/SW-Schnittstellenänderung ist nicht dokumentiert. Der neue Ingenieur geht vom ursprünglichen Design aus. Zwei Wochen Integrationsarbeit gehen verloren.",impact:"2 Wochen Ingenieurzeit. Vermeidbar mit einer Stunde Dokumentation."},
+    {icon:"doc-repeat",title:"Der wiederholte Fehler",story:"Eine Firmware-Fehlerklasse wird still behoben. Kein NC-Ticket, keine Grundursache, keine Aufzeichnung. Sechs Monate später taucht derselbe Fehler in einem anderen Modul auf. Niemand stellt die Verbindung her. Die Untersuchung geschieht erneut.",impact:"Doppelte Untersuchung über zwei Projekte. Vermeidbar mit einem Azure DevOps-Ticket."},
+    {icon:"doc-outdated",title:"Das veraltete Verfahren",story:"Ein Team aktualisiert seinen Deployment-Prozess, aber nicht das SharePoint-Verfahren. Ein neuer Mitarbeitender befolgt das alte Verfahren. Sein Deployment schlägt fehl. Ein halber Tag um zu diagnostizieren warum, die Antwort war in dem Verfahren, dem er gefolgt ist.",impact:"Ein halber Tag Debugging. Vermeidbar mit einer SharePoint-Aktualisierung."},
+  ],
+};
+
+let lang='en';
+const sections=['iso','principles','loop','concepts','resp','stories','docs','audits','ref'];
+const visited=new Set(['iso']);
+
+function toggleFolder(el){
+  const items=el.nextElementSibling;
+  const chevron=el.querySelector('.folder-chevron');
+  const open=items.style.display==='block';
+  items.style.display=open?'none':'block';
+  if(chevron)chevron.style.transform=open?'rotate(-90deg)':'rotate(0deg)';
+}
+
+function go(sec){
+  document.querySelectorAll('.content-section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const el=document.getElementById('sec-'+sec);if(el)el.classList.add('active');
+  const ni=document.getElementById('ni-'+sec);if(ni)ni.classList.add('active');
+  visited.add(sec);updateProgress();window.scrollTo(0,0);closeNav();
+}
+
+function toggleNav(){document.body.classList.contains('nav-open')?closeNav():openNav();}
+function openNav(){document.body.classList.add('nav-open');const b=document.getElementById('menu-btn');if(b)b.setAttribute('aria-expanded','true');}
+function closeNav(){document.body.classList.remove('nav-open');const b=document.getElementById('menu-btn');if(b)b.setAttribute('aria-expanded','false');}
+
+function updateProgress(){
+  const done=sections.filter(s=>visited.has(s)).length;
+  const pct=Math.round((done/sections.length)*100);
+  const nf=document.getElementById('nav-fill');if(nf)nf.style.width=pct+'%';
+  const np=document.getElementById('nav-pct');if(np)np.textContent=pct+'%';
+  const npr=document.getElementById('nav-progress');if(npr&&pct>0)npr.style.display='flex';
+  sections.forEach(s=>{const ck=document.getElementById('ck-'+s);if(ck)ck.classList.toggle('done',visited.has(s));});
+}
+
+function setLang(l){
+  lang=l;
+  document.documentElement.lang=l;
+  document.getElementById('btn-en').classList.toggle('active',l==='en');
+  document.getElementById('btn-de').classList.toggle('active',l==='de');
+  renderAll();
+}
+
+function renderAll(){
+  const u=C[lang];
+  const pb=document.getElementById('pb-label');if(pb)pb.textContent=u.pbLabel||'Your progress';
+
+  // sidebar nav labels. Always update for both languages
+  const navTranslations={
+    en:{home:"Home",iso:"Why it matters",principles:"Principles",loop:"The feedback loop",
+        concepts:"Your Role in the QMS",
+        stories:"QMS in Action",docs:"Documentation",
+        audits:"Audits",ref:"Reference",
+        quizzes:"Knowledge Check",
+        sidebarLabels:["ISO 9001","Assessments"]},
+    de:{home:"Startseite",iso:"Warum es wichtig ist",principles:"Grundsätze",
+        loop:"Der Regelkreis",concepts:"Deine Rolle im QMS",
+        stories:"QMS in der Praxis",
+        docs:"Dokumentation",audits:"Audits",ref:"Referenz",
+        quizzes:"Wissenstest",
+        sidebarLabels:["ISO 9001","Bewertungen"]},
+  };
+  const nl=navTranslations[lang]||navTranslations.en;
+  ['home','iso','principles','loop','concepts','resp','stories','docs','audits','ref','quizzes'].forEach(k=>{
+    const el=document.getElementById('nl-'+k);if(el)el.textContent=nl[k];
+  });
+  document.querySelectorAll('.sidebar-label').forEach((el,i)=>{if(nl.sidebarLabels[i])el.textContent=nl.sidebarLabels[i];});
+
+  // static section headers
+  const sectionMeta=lang==='de'?{
+    iso:{eyebrow:"Abschnitt 1 von 8",title:"Warum ISO 9001 bei ML!PA wichtig ist",sub:"Ein System, das Probleme verhindert. Damit derselbe Fehler nicht zweimal passiert.",meta:[]},
+    principles:{eyebrow:"Abschnitt 2 von 8",title:"Grundsätze",sub:"Sieben Grundsätze. Jeder erklärt, warum Qualität Struktur, Orientierung und engagierte Menschen braucht.",meta:[]},
+    loop:{eyebrow:"Abschnitt 3 von 8",title:"Der Regelkreis (Plan, Do, Check, Act)",sub:"Die eine Idee hinter dem gesamten System.",meta:[]},
+    concepts:{eyebrow:"Abschnitt 4 von 8",title:"Ihre Rolle im QMS",sub:"Die Qualitätspolitik, die Sprache des Systems und was von Ihnen erwartet wird.",meta:[]},
+    stories:{eyebrow:"Abschnitt 5 von 8",title:"QMS in der Praxis",sub:"Drei Situationen. Echte Muster. Geänderte Details.",meta:[]},
+    docs:{eyebrow:"Abschnitt 6 von 8",title:"Dokumentation",sub:"Das Thema, über das alle klagen, und warum das Überspringen immer teurer ist.",meta:[]},
+    audits:{eyebrow:"Abschnitt 7 von 8",title:"Audits",sub:"Was ein Audit ist, wer daran beteiligt ist und wie man sich darauf vorbereitet, ohne etwas Besonderes tun zu müssen.",meta:[]},
+    ref:{eyebrow:"Abschnitt 8 von 8",title:"Referenz",sub:"",meta:["Nur zur Referenz"]},
+    quizzes:{eyebrow:"Bewertungen",title:"Wissenstest",sub:"",meta:[]},
+  }:{
+    iso:{eyebrow:"Section 1 of 8",title:"Why ISO 9001 Matters at ML!PA",sub:"A system that prevents problems. Built so the same failure does not happen twice.",meta:[]},
+    principles:{eyebrow:"Section 2 of 8",title:"Principles",sub:"Seven principles. Each one explains why quality needs structure, direction, and people who care.",meta:[]},
+    loop:{eyebrow:"Section 3 of 8",title:"The Feedback Loop",sub:"The one idea behind the entire system.",meta:[]},
+    concepts:{eyebrow:"Section 4 of 8",title:"Your Role in the QMS",sub:"The Quality Policy, the language of the system, and what is expected of you.",meta:[]},
+    stories:{eyebrow:"Section 5 of 8",title:"QMS in Action",sub:"Three situations. Real patterns. Different details.",meta:[]},
+    docs:{eyebrow:"Section 6 of 8",title:"Documentation",sub:"The thing everyone complains about, and why skipping it is always more expensive.",meta:[]},
+    audits:{eyebrow:"Section 7 of 8",title:"Audits",sub:"What an audit is, who is involved, and how to be ready without doing anything special.",meta:[]},
+    ref:{eyebrow:"Section 8 of 8",title:"Reference",sub:"",meta:["Reference only"]},
+    quizzes:{eyebrow:"Assessments",title:"Knowledge Check",sub:"",meta:[]},
+  };
+  Object.entries(sectionMeta).forEach(([sec,m])=>{
+    const el=document.getElementById('sec-'+sec);if(!el)return;
+    const ey=el.querySelector('.article-eyebrow');if(ey)ey.textContent=m.eyebrow;
+    const ti=el.querySelector('.article-title');if(ti)ti.textContent=m.title;
+    const su=el.querySelector('.article-sub');if(su)su.textContent=m.sub;
+    const mt=el.querySelector('.article-meta');if(mt&&m.meta.length){mt.innerHTML=m.meta.map(t=>`<span class="meta-tag">${t}</span>`).join('');}
+  });
+
+  // Quiz page callouts
+  const de=lang==='de';
+  const qc1t=document.getElementById('qc1-title');
+  const qc1b=document.getElementById('qc1-body');
+  const qc2t=document.getElementById('qc2-title');
+  const qc2b=document.getElementById('qc2-body');
+  if(qc1t)qc1t.textContent=de?'Wie Ergebnisse erfasst werden':'How results are recorded';
+  if(qc1b)qc1b.textContent=de?'Der Wissenstest öffnet in Microsoft Forms. Dein Microsoft 365-Konto identifiziert dich. Ergebnisse werden im HR SharePoint gespeichert. Keine Daten verlassen die Microsoft 365-Umgebung von ML!PA.':'The knowledge check opens in Microsoft Forms. Your Microsoft 365 account identifies you. Results are stored in HR SharePoint. No data leaves ML!PA\'s Microsoft 365 environment.';
+  if(qc2t)qc2t.textContent=de?'Bevor du startest':'Before you start';
+  if(qc2b)qc2b.textContent=de?'Arbeite zuerst alle Schulungsabschnitte durch und mach dann den ISO 9001 Awareness-Wissenstest. Zum Bestehen sind 80% erforderlich.':'Work through all the training sections first, then take the ISO 9001 Awareness knowledge check. A passing score of 80% is required.';
+
+  // Footer
+  const setTxt=(id,t)=>{const e=document.getElementById(id);if(e)e.textContent=t;};
+  setTxt('ft-title',de?'ISO 9001 Schulung':'ISO 9001 Training');
+  setTxt('ft-desc',de?'Qualitätsschulung für alle ML!PA-Mitarbeitenden, als Teil unseres ISO 9001-zertifizierten Qualitätsmanagementsystems.':'Quality awareness training for all ML!PA employees, supporting our ISO 9001 certified Quality Management System.');
+  setTxt('ft-bottom',de?'© 2026 ML!PA GmbH. Nur für den internen Gebrauch. Dieses Material ist vertraulich und ausschließlich für ML!PA-Mitarbeitende bestimmt. Nicht außerhalb des Unternehmens weitergeben.':'© 2026 ML!PA GmbH. Internal use only. This material is confidential and intended solely for ML!PA employees. Do not distribute outside the organisation.');
+
+
+  // story label globals, plain strings, no escapes needed in JS template literals
+  window._storyInProgress=lang==='de'?'↺ In Bearbeitung':'↺ In progress';
+  window._storyClosed=lang==='de'?'✓ Abgeschlossen':'✓ Closed';
+  window._storyWhatHappened=lang==='de'?'Was passiert ist':'What happened';
+  window._storyImmediate=lang==='de'?'Sofortmaßnahmen':'Immediate actions';
+  window._storyRootCause=lang==='de'?'Grundursache':'Root cause';
+  window._storyCADefined=lang==='de'?'Korrekturmaßnahme definiert':'Corrective action defined';
+  window._storyWhatChanged=lang==='de'?'Was sich geändert hat':'What changed';
+  window._storyAcceptance=lang==='de'?'Abnahmekriterien':'Acceptance criteria';
+  window._storyWhysTitle=lang==='de'?'5 Warum':'5 Whys';
+  window._storyLesson=lang==='de'?'Die Lektion':'The lesson';
+  window._storyRootCauseLabel=lang==='de'?'⚠ Grundursache':'⚠ Root cause';
+  window._storyWhyLabel=lang==='de'?'Warum ':'Why ';
+  window._becauseLabel=lang==='de'?'Weil:':'Because:';
+
+  // clause table labels
+  window._clauseIntroLabel=lang==='de'?'<span class="clause-group-pill">Klauseln 1–3</span> Einführend, Anwendungsbereich, normative Verweise, Begriffe. Keine operativen Anforderungen.':'<span class="clause-group-pill">Clauses 1–3</span> Introductory, scope, normative references, terms and definitions. Not operational requirements.';
+  window._clauseOpLabel=lang==='de'?'<span class="clause-group-pill">Klauseln 4–10</span> Operative Anforderungen, hier lebt ISO 9001 tatsächlich.':'<span class="clause-group-pill">Clauses 4–10</span> Operational requirements. This is where ISO 9001 actually lives.';
+
+  // quiz list
+  const ql=document.getElementById('quiz-list');
+  if(ql){ql.innerHTML='';u.quizzes.forEach(q=>{
+    const row=document.createElement('div');row.className='quiz-row';
+    const isISO=q.name==='ISO 9001 Awareness'||q.name==='ISO 9001 Bewusstsein';
+    const hasLink=isISO&&QUIZ_LINK&&QUIZ_LINK.length>0;
+    const btn=hasLink?`<a class="quiz-btn" href="${QUIZ_LINK}" target="_blank">→ ${q.lt}</a>`:`<span class="quiz-btn soon">${lang==='de'?'Demnächst':'Coming soon'}</span>`;
+    row.innerHTML=`<div class="quiz-row-left"><div class="quiz-row-name">${q.name}</div><div class="quiz-row-who">${q.who}</div><div class="quiz-row-pass">Pass: ${q.pass}</div></div><div class="quiz-row-right">${btn}</div>`;
+    ql.appendChild(row);
+  });}
+
+  ['iso','principles','loop','concepts','stories','docs','audits','ref'].forEach(id=>{
+    const key='art'+id[0].toUpperCase()+id.slice(1);
+    renderArticle(id,u[key],u);
+  });
+  updateProgress();
+}
+
+function renderArticle(id,items,u){
+  const c=document.getElementById('art-'+id);if(!c||!items)return;
+  c.innerHTML='';items.forEach(item=>renderItem(c,item,u));
+}
+
+function renderItem(c,item,u){
+  if(item.t==='p'){const p=document.createElement('p');p.textContent=item.c;c.appendChild(p);}
+  else if(item.t==='bullets'){
+    const ul=document.createElement('ul');
+    ul.style.cssText='margin:.5rem 0 1rem 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:.5rem';
+    (item.items||[]).forEach(function(b){
+      const li=document.createElement('li');
+      li.style.cssText='display:flex;gap:.6rem;align-items:flex-start;font-size:14px;color:var(--text-mid);line-height:1.65;text-align:justify';
+      li.innerHTML='<span style="color:var(--blue);font-weight:700;flex-shrink:0;margin-top:2px">→</span><span>'+b+'</span>';
+      ul.appendChild(li);
+    });
+    c.appendChild(ul);
+  }
+  else if(item.t==='h2'){const h=document.createElement('h2');h.textContent=item.c;h.style.cssText='font-size:18px;font-weight:700;color:var(--text);margin:1.75rem 0 .6rem;padding-bottom:.4rem;border-bottom:2px solid var(--blue-light)';c.appendChild(h);}
+  else if(item.t==='h3'){const h=document.createElement('h3');h.textContent=item.c;c.appendChild(h);}
+  else if(item.t==='h4'){const h=document.createElement('h4');h.textContent=item.c;c.appendChild(h);}
+  else if(item.t==='callout'){
+    const d=document.createElement('div');d.className=`callout ${item.v}`;
+    d.innerHTML=`${item.ti?`<div class="callout-title">${item.ti}</div>`:''}${item.c.replace(/\n/g,'<br>')}`;
+    c.appendChild(d);
+  }
+  else if(item.t==='scenarios'){
+    (u.scenarios||[]).forEach(s=>{
+      const d=document.createElement('div');d.className='scenario-card';
+      const lessonHtml=s.lesson?`<div class="scenario-card-lesson">◎ <strong>${lang==='de'?'Kernlektion':'Core lesson'}:</strong> ${s.lesson}</div>`:'';
+      d.innerHTML=`<div class="scenario-card-situation">${s.situation}</div><div class="scenario-card-body">${s.body}</div><span class="scenario-card-fix">✓ ${s.fix}</span>${lessonHtml}`;
+      c.appendChild(d);
+    });
+  }
+  else if(item.t==='principles-grid'){
+    const principles=u.principles||[];
+    const practiceLabel=lang==='de'?'In der Praxis':'In practice';
+    const grid=document.createElement('div');
+    grid.style.cssText='display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin:.75rem 0';
+    principles.forEach(function(p){
+      const card=document.createElement('div');
+      card.style.cssText='background:var(--white);border:1px solid var(--border);border-radius:8px;padding:.8rem 1rem;display:flex;gap:.75rem;align-items:flex-start';
+      const practiceHtml=(p.practice||[]).map(function(pr){
+        return '<li style="font-size:11px;color:var(--text-soft);line-height:1.5;margin-left:.1rem">'+pr+'</li>';
+      }).join('');
+      const practiceSection=practiceHtml?'<div style="margin-top:6px"><div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--blue);margin-bottom:3px">'+practiceLabel+'</div><ul style="list-style:none;padding:0;margin:0">'+practiceHtml+'</ul></div>':'';
+      const pColors=['#1B3FA0','#E8192C','#16A34A','#0F766E','#D97706','#7C3AED','#0EA5E9'];
+      const pCol=pColors[(parseInt(p.num)-1)%pColors.length];
+      card.innerHTML='<span style="background:'+pCol+';color:#fff;font-size:11px;font-weight:700;min-width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">'+p.num+'</span><div style="flex:1"><div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px">'+p.title+'</div><div style="font-size:12px;color:var(--text-mid);line-height:1.5;text-align:justify">'+p.line+'</div>'+practiceSection+'</div>';
+      grid.appendChild(card);
+    });
+    c.appendChild(grid);
+  }
+  else if(item.t==='pdca'){
+    const pdcaData=u.pdca||[];
+    const wrap=document.createElement('div');
+    wrap.style.cssText='margin:1.5rem 0;width:100%';
+
+    // Canvas: 800x620. Circle centre at 400,310, radius 140.
+    const cx=400, cy=310, r=145, nr=48;
+    const nodePos=[
+      {x:cx,      y:cy-r  }, // Plan  top
+      {x:cx+r,    y:cy    }, // Do    right
+      {x:cx,      y:cy+r  }, // Check bottom
+      {x:cx-r,    y:cy    }, // Act   left
+    ];
+    // Desc boxes well clear of nodes — pushed further out
+    const descPos=[
+      {x:cx,      y:50   }, // Plan — top
+      {x:690,     y:cy   }, // Do — right
+      {x:cx,      y:570  }, // Check — bottom
+      {x:110,     y:cy   }, // Act — left
+    ];
+    const BW=155, BH=90;
+
+    let svg=`<svg viewBox="0 0 800 620" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:680px;display:block;margin:0 auto">
+      <defs>
+        <marker id="pa" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto">
+          <path d="M0,0 L0,7 L9,3.5z" fill="#94A3B8"/>
+        </marker>
+      </defs>
+      <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#E2E8F0" stroke-width="2" stroke-dasharray="8,5"/>`;
+
+    // Arrows on circle edge between nodes
+    [[0,1],[1,2],[2,3],[3,0]].forEach(([fi,ti])=>{
+      const f=nodePos[fi],t2=nodePos[ti];
+      const dx=t2.x-f.x,dy=t2.y-f.y,d=Math.sqrt(dx*dx+dy*dy);
+      const sx=f.x+dx/d*nr, sy=f.y+dy/d*nr;
+      const ex=t2.x-dx/d*(nr+3), ey=t2.y-dy/d*(nr+3);
+      svg+=`<line x1="${sx}" y1="${sy}" x2="${ex}" y2="${ey}" stroke="#94A3B8" stroke-width="2" marker-end="url(#pa)"/>`;
+    });
+
+    // Connector lines from node to desc box
+    [[0,descPos[0]],[1,descPos[1]],[2,descPos[2]],[3,descPos[3]]].forEach(([i,dp])=>{
+      const np=nodePos[i];
+      svg+=`<line x1="${np.x}" y1="${np.y}" x2="${dp.x}" y2="${dp.y}" stroke="#E2E8F0" stroke-width="1" stroke-dasharray="4,3"/>`;
+    });
+
+    // Nodes
+    pdcaData.forEach((p,i)=>{
+      const pos=nodePos[i];
+      svg+=`<circle cx="${pos.x}" cy="${pos.y}" r="${nr}" fill="${p.bg}" filter="drop-shadow(0 3px 10px rgba(0,0,0,0.22))"/>`;
+      svg+=`<text x="${pos.x}" y="${pos.y-7}" text-anchor="middle" dominant-baseline="middle" font-family="-apple-system,system-ui,sans-serif" font-size="23" font-weight="800" fill="white">${p.letter}</text>`;
+      svg+=`<text x="${pos.x}" y="${pos.y+14}" text-anchor="middle" dominant-baseline="middle" font-family="-apple-system,system-ui,sans-serif" font-size="10" font-weight="700" fill="rgba(255,255,255,0.85)" letter-spacing="1.5">${p.word.toUpperCase()}</text>`;
+    });
+
+    // Desc boxes, all same size BW x BH
+    pdcaData.forEach((p,i)=>{
+      const dp=descPos[i];
+      const bx=dp.x-BW/2, by=dp.y-BH/2;
+      svg+=`<rect x="${bx}" y="${by}" width="${BW}" height="${BH}" rx="8" fill="white" stroke="#E2E8F0" stroke-width="1.5" filter="drop-shadow(0 1px 4px rgba(0,0,0,0.07))"/>`;
+      // Wrap text to ~20 chars
+      const words=p.desc.split(' ');
+      const lines=[];let line='';
+      words.forEach(w=>{
+        if((line+' '+w).trim().length>22){lines.push(line.trim());line=w;}
+        else line=(line+' '+w).trim();
+      });
+      if(line)lines.push(line.trim());
+      const lh=15, totalH=lines.length*lh;
+      const startY=dp.y - totalH/2 + lh*0.6;
+      lines.forEach((ln,li)=>{
+        svg+=`<text x="${dp.x}" y="${startY+li*lh}" text-anchor="middle" dominant-baseline="middle" font-family="-apple-system,system-ui,sans-serif" font-size="11.5" fill="#374151">${ln}</text>`;
+      });
+    });
+
+    // Centre
+    svg+=`<text x="${cx}" y="${cy-9}" text-anchor="middle" font-family="-apple-system,system-ui,sans-serif" font-size="15" font-weight="700" fill="#94A3B8">PDCA</text>
+          <text x="${cx}" y="${cy+11}" text-anchor="middle" font-family="-apple-system,system-ui,sans-serif" font-size="11" fill="#CBD5E1">cycle</text>
+    </svg>`;
+    wrap.innerHTML=svg;
+    c.appendChild(wrap);
+  }
+  else if(item.t==='loop-example'){
+    const wrap=document.createElement('div');
+    wrap.style.cssText='margin:1.25rem 0;width:100%';
+
+    const withoutLabel=lang==='de'?'Ohne den Regelkreis':'Without the loop';
+    const withLabel=lang==='de'?'Mit dem Regelkreis':'With the loop';
+    const triggerText=lang==='de'?'Fehler gefunden':'Bug found';
+    const triggerSub=lang==='de'?'Externer Auslöser, startet den Zyklus':'External trigger, starts the cycle';
+
+    // Trigger box
+    const trigBox=document.createElement('div');
+    trigBox.style.cssText='background:white;border:1.5px solid #E2E8F0;border-radius:8px;padding:10px 16px;margin-bottom:10px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 3px rgba(0,0,0,0.05)';
+    trigBox.innerHTML='<div style="width:36px;height:36px;background:#EEF2FF;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1B3FA0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>'
+      +'<div><div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#64748B">'+(lang==='de'?'Auslöser':'Trigger')+'</div>'
+      +'<div style="font-size:13px;font-weight:600;color:#0F172A">'+triggerText+'</div>'
+      +'<div style="font-size:11px;color:#374151;margin-top:1px">'+triggerSub+'</div></div>';
+    wrap.appendChild(trigBox);
+
+    const downArrow=document.createElement('div');
+    downArrow.style.cssText='text-align:center;color:#CBD5E1;font-size:16px;margin-bottom:6px';
+    downArrow.textContent='↓';
+    wrap.appendChild(downArrow);
+
+    // Distinct SVG paths for each step meaning
+    const stepPaths={
+      'fix-quiet':'<path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>',
+      'no-record':'<rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>',
+      'repeat':'<polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/>',
+      'log-nc':'<path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/>',
+      'implement':'<path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>',
+      'verify':'<circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>',
+      'standardise':'<polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>',
+    };
+
+    const stepsWithout=lang==='de'?[
+      {icon:'fix-quiet',text:'Still behoben, kein Ticket'},
+      {icon:'no-record',text:'Kein Nachweis, keine Aufzeichnung'},
+      {icon:'repeat',text:'6 Monate später: gleicher Fehler, anderes Team, nochmal von vorne'},
+    ]:[
+      {icon:'fix-quiet',text:'Quietly fixed, no ticket'},
+      {icon:'no-record',text:'No record, nothing documented'},
+      {icon:'repeat',text:'6 months later: same bug, different team, start from zero'},
+    ];
+
+    const pdcaC=['#1B3FA0','#E8192C','#0F766E','#16A34A'];
+    const pdcaL=['Plan','Do','Check','Act'];
+    const stepsWithPdca=lang==='de'?[
+      {icon:'log-nc',label:0,text:'NC anlegen, Verantwortlichen zuweisen, Grundursache identifizieren'},
+      {icon:'implement',label:1,text:'Korrektur umgesetzt, Nachweis im Ticket'},
+      {icon:'verify',label:2,text:'Grundursache verifiziert, Fix getestet und bestätigt'},
+      {icon:'standardise',label:3,text:'Fix funktioniert: Prozess standardisieren. Fix fehlgeschlagen: zurück zu Planen.'},
+    ]:[
+      {icon:'log-nc',label:0,text:'Log NC, assign owner, identify root cause'},
+      {icon:'implement',label:1,text:'Implement correction, record evidence on ticket'},
+      {icon:'verify',label:2,text:'Verify root cause, test and confirm fix worked'},
+      {icon:'standardise',label:3,text:'Fix worked: standardise it, update guidelines. Fix failed: feed back into Plan.'},
+    ];
+
+    function buildCleanCol(steps,color,colLabel,showPdca){
+      const col=document.createElement('div');
+      col.style.cssText='min-width:0;display:flex;flex-direction:column';
+      const hdr=document.createElement('div');
+      hdr.style.cssText='background:'+color+';color:white;font-size:10px;font-weight:700;text-align:center;padding:8px 12px;border-radius:8px 8px 0 0;letter-spacing:.07em;text-transform:uppercase';
+      hdr.textContent=colLabel;
+      col.appendChild(hdr);
+      const body=document.createElement('div');
+      body.style.cssText='background:white;border:1px solid #E2E8F0;border-top:none;border-radius:0 0 8px 8px;padding:14px 12px;flex:1;display:flex;flex-direction:column';
+      const stepsWrap=document.createElement('div');
+      stepsWrap.style.cssText='flex:1';
+      steps.forEach(function(s,i){
+        const row=document.createElement('div');
+        row.style.cssText='display:flex;align-items:flex-start;gap:10px;margin-bottom:10px';
+        const iconWrap=document.createElement('div');
+        iconWrap.style.cssText='width:30px;height:30px;border-radius:50%;background:#F1F5F9;border:1.5px solid #E2E8F0;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px';
+        const path=stepPaths[s.icon];
+        if(path){
+          const ic=showPdca?pdcaC[s.label||0]:color;
+          iconWrap.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="'+ic+'" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+path+'</svg>';
+        }
+        const tw=document.createElement('div');
+        tw.style.cssText='flex:1;padding-top:3px';
+        if(showPdca&&s.label!==undefined){
+          const badge=document.createElement('span');
+          badge.style.cssText='background:'+pdcaC[s.label]+';color:white;font-size:9px;font-weight:700;padding:2px 7px;border-radius:4px;margin-right:5px;vertical-align:middle;text-transform:uppercase;letter-spacing:.05em;display:inline-block;margin-bottom:3px';
+          badge.textContent=pdcaL[s.label];
+          tw.appendChild(badge);
+          tw.appendChild(document.createElement('br'));
+        }
+        const txt=document.createElement('span');
+        txt.style.cssText='font-size:12.5px;color:#374151;line-height:1.55;text-align:justify';
+        txt.textContent=s.text;
+        tw.appendChild(txt);
+        row.appendChild(iconWrap);row.appendChild(tw);
+        stepsWrap.appendChild(row);
+        if(i<steps.length-1){
+          const arr=document.createElement('div');
+          arr.style.cssText='text-align:center;font-size:12px;color:#CBD5E1;margin:-4px 0 6px 14px';
+          arr.textContent='↓';
+          stepsWrap.appendChild(arr);
+        }
+      });
+      body.appendChild(stepsWrap);
+
+      // Bottom block — different for each column
+      const bottomBlock=document.createElement('div');
+      if(!showPdca){
+        // WITHOUT — broken cycle illustration + cost
+        const costLabel=lang==='de'?'Das Ergebnis':'The result';
+        const costText=lang==='de'?'Derselbe Fehler. Anderes Team. Dieselben Kosten. Immer wieder.':'Same problem. Different team. Same cost. Every time.';
+        bottomBlock.style.cssText='margin-top:12px;padding:10px 12px;background:#FEF2F2;border:1px solid #FECACA;border-radius:8px;display:flex;gap:10px;align-items:flex-start';
+        bottomBlock.innerHTML=
+          '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px">'
+          +'<polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/>'
+          +'<polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/>'
+          +'<line x1="2" y1="2" x2="22" y2="22"/>'
+          +'</svg>'
+          +'<div><div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#DC2626;margin-bottom:3px">'+costLabel+'</div>'
+          +'<div style="font-size:11.5px;color:#7F1D1D;line-height:1.5">'+costText+'</div></div>';
+      } else {
+        // WITH — success outcome
+        const winLabel=lang==='de'?'Das Ergebnis':'The result';
+        const winText=lang==='de'?'Das nächste Team findet die Aufzeichnung. Das Problem wiederholt sich nicht.':'The next team finds the record. The problem does not repeat.';
+        bottomBlock.style.cssText='margin-top:12px;padding:10px 12px;background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;display:flex;gap:10px;align-items:flex-start';
+        bottomBlock.innerHTML=
+          '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px">'
+          +'<polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/>'
+          +'<polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/>'
+          +'<polyline points="9 11 12 14 22 4"/>'
+          +'</svg>'
+          +'<div><div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#16A34A;margin-bottom:3px">'+winLabel+'</div>'
+          +'<div style="font-size:11.5px;color:#14532D;line-height:1.5">'+winText+'</div></div>';
+      }
+      body.appendChild(bottomBlock);
+      col.appendChild(body);
+      return col;
+    }
+
+    const grid=document.createElement('div');
+    grid.style.cssText='display:grid;grid-template-columns:1fr 32px 1fr;gap:0;align-items:stretch';
+    grid.appendChild(buildCleanCol(stepsWithout,'#DC2626',withoutLabel,false));
+    const vs=document.createElement('div');
+    vs.style.cssText='display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#94A3B8;padding:0 4px;margin-top:32px';
+    vs.textContent='VS';
+    grid.appendChild(vs);
+    grid.appendChild(buildCleanCol(stepsWithPdca,'#16A34A',withLabel,true));
+    wrap.appendChild(grid);
+    c.appendChild(wrap);
+  }
+    else if(item.t==='ncflow'){
+    const g=document.createElement('div');g.className='nc-flow';
+    (u.ncSteps||[]).forEach(s=>{
+      const d=document.createElement('div');d.className='nc-step';
+      d.innerHTML=`<div class="nc-step-num">${s.num}</div><div class="nc-step-label">${s.label}</div><div class="nc-step-sub">${s.sub}</div>`;
+      g.appendChild(d);
+    });
+    const wrap=document.createElement('div');wrap.className='nc-flow-wrap';wrap.appendChild(g);c.appendChild(wrap);
+  }
+  else if(item.t==='ncroles'){
+    const g=document.createElement('div');g.className='nc-roles';
+    (u.ncRoles||[]).forEach(r=>{
+      const d=document.createElement('div');d.className='nc-role-card';
+      d.style.background=r.color;d.style.borderColor=r.border;
+      d.innerHTML=`<div class="nc-role-label" style="color:${r.labelColor}">${r.role}</div>${r.desc}`;
+      g.appendChild(d);
+    });c.appendChild(g);
+  }
+  else if(item.t==='concept-cards'){
+    const g=document.createElement('div');g.className='concept-cards';
+    const ccColors=['#1B3FA0','#E8192C','#16A34A','#0F766E','#D97706','#7C3AED'];
+    const svgIds={'quality':'ico-quality','nc':'ico-nc','action':'ico-action','evidence':'ico-evidence'};
+    (item.items||[]).forEach((ci,idx)=>{
+      const col=ccColors[idx%ccColors.length];
+      const d=document.createElement('div');d.className='concept-card';
+      const svgId=svgIds[ci.icon];
+      const iconHtml=svgId
+        ?`<div style="background:${col};color:white;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="20" height="20" style="color:white"><use href="#${svgId}"/></svg></div>`
+        :`<div style="background:${col};color:white;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;flex-shrink:0">${ci.icon}</div>`;
+      d.innerHTML=iconHtml+`<div><div class="concept-card-title">${ci.title}</div><div class="concept-card-body">${ci.body}</div></div>`;
+      g.appendChild(d);
+    });c.appendChild(g);
+  }
+  else if(item.t==='four-things'){
+    const g=document.createElement('div');g.className='four-things';
+    (item.items||[]).forEach(fi=>{
+      const d=document.createElement('div');d.className='four-thing';
+      d.innerHTML=`<div class="four-thing-num">${fi.num}</div><div class="four-thing-body"><div class="four-thing-title">${fi.title}</div><div class="four-thing-desc">${fi.desc}</div></div>`;
+      g.appendChild(d);
+    });c.appendChild(g);
+  }
+  else if(item.t==='findings'){
+    const g=document.createElement('div');g.className='finding-cards';
+    (u.findings||[]).forEach(f=>{
+      const d=document.createElement('div');d.className='finding-card';
+      d.style.background=f.color;d.style.borderColor=f.border;
+      d.innerHTML=`<div class="finding-card-badge" style="color:${f.badgeColor}">${f.type}</div><div class="finding-card-desc">${f.desc}</div>`;
+      g.appendChild(d);
+    });c.appendChild(g);
+  }
+  else if(item.t==='table'){
+    const wrap=document.createElement('div');wrap.style.overflowX='auto';
+    const tbl=document.createElement('table');tbl.className='data-table';
+    const thead=document.createElement('thead');const trh=document.createElement('tr');
+    item.hdr.forEach(h=>{const th=document.createElement('th');th.textContent=h;trh.appendChild(th);});
+    thead.appendChild(trh);tbl.appendChild(thead);
+    const tbody=document.createElement('tbody');
+    item.rows.forEach(row=>{
+      const tr=document.createElement('tr');
+      row.forEach((cell,i)=>{
+        const td=document.createElement('td');
+        if(i===0&&item.hdr.length>=3)td.innerHTML=`<strong>${cell}</strong>`;
+        else td.textContent=cell;
+        tr.appendChild(td);
+      });tbody.appendChild(tr);
+    });tbl.appendChild(tbody);wrap.appendChild(tbl);c.appendChild(wrap);
+  }
+    else if(item.t==='clauseTable'){
+    const g=document.createElement('div');
+    g.style.cssText='border:1px solid var(--border);border-radius:10px;overflow:hidden;margin:.75rem 0';
+    const clauses=u.clauses||[];
+    // Group into intro and operational
+    const introItems=clauses.filter(c=>c.group==='intro');
+    const opItems=clauses.filter(c=>c.group==='op');
+    const introLabel=lang==='de'?'Klauseln 1–3':'Clauses 1–3';
+    const opLabel=lang==='de'?'Klauseln 4–10':'Clauses 4–10';
+    const introDesc=lang==='de'?'Einführend. Keine operativen Anforderungen.':'Introductory. Not operational requirements.';
+    const opDesc=lang==='de'?'Operative Anforderungen. Hier lebt ISO 9001.':'Operational requirements. This is where ISO 9001 lives.';
+
+    [[introItems,introLabel,introDesc,false],[opItems,opLabel,opDesc,true]].forEach(([items,label,desc,op],gi)=>{
+      // Group header
+      const hdr=document.createElement('div');
+      hdr.style.cssText='display:flex;align-items:center;gap:10px;padding:10px 14px;background:'+(op?'var(--blue-pale)':'#F8FAFC')+(gi>0?';border-top:2px solid var(--border)':'');
+      const badge=document.createElement('span');
+      badge.style.cssText='background:'+(op?'var(--blue)':'#94A3B8')+';color:white;font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;white-space:nowrap;letter-spacing:.03em;flex-shrink:0';
+      badge.textContent=label;
+      const dspan=document.createElement('span');
+      dspan.style.cssText='font-size:12px;color:'+(op?'var(--blue)':'#64748B')+';font-weight:'+(op?'600':'400');
+      dspan.textContent=desc;
+      hdr.appendChild(badge);hdr.appendChild(dspan);
+      g.appendChild(hdr);
+      items.forEach(it=>{
+        const row=document.createElement('div');
+        row.style.cssText='display:flex;align-items:center;gap:10px;padding:9px 14px;border-top:1px solid var(--border);background:white;'+(it.subs&&it.subs.length?'cursor:pointer;':'');
+        const num=document.createElement('span');
+        num.style.cssText='background:'+(op?'var(--blue-pale)':'#F1F5F9')+';color:'+(op?'var(--blue)':'#64748B')+';font-size:11px;font-weight:700;padding:2px 6px;border-radius:4px;min-width:28px;text-align:center;flex-shrink:0';
+        num.textContent='§'+it.num;
+        const title=document.createElement('span');
+        title.style.cssText='font-size:13.5px;color:var(--text);flex:1';
+        title.textContent=it.text;
+        row.appendChild(num);row.appendChild(title);
+        if(it.subs&&it.subs.length){
+          const exp=document.createElement('span');
+          exp.style.cssText='font-size:12px;color:#94A3B8;flex-shrink:0';
+          exp.textContent='▾';
+          row.appendChild(exp);
+          const sub=document.createElement('div');
+          sub.style.display='none';
+          sub.style.cssText='border-top:1px solid var(--border);background:#FAFBFC';
+          it.subs.forEach(s=>{
+            const sr=document.createElement('div');
+            sr.style.cssText='display:flex;align-items:flex-start;gap:10px;padding:7px 14px 7px 40px;border-top:1px solid var(--border)';
+            const isH=s.num==='7.3';
+            sr.innerHTML='<span style="font-size:10px;font-weight:700;color:'+(isH?'var(--blue)':'#94A3B8')+';min-width:28px;padding-top:1px">'+s.num+'</span><span style="font-size:12.5px;color:'+(isH?'var(--blue)':'var(--text-mid)')+'">'+s.text+'</span>';
+            sub.appendChild(sr);
+          });
+          row.addEventListener('click',()=>{
+            const open=sub.style.display!=='none';
+            sub.style.display=open?'none':'block';
+            exp.textContent=open?'▾':'▴';
+          });
+          g.appendChild(row);g.appendChild(sub);
+        } else {
+          g.appendChild(row);
+        }
+      });
+    });
+    c.appendChild(g);
+  }
+  else if(item.t==='eightd'){
+    // SharePoint path breadcrumb
+    const pathLabel=lang==='de'?'Vorlage verfügbar unter':'Template available at';
+    const breadcrumb=document.createElement('div');
+    breadcrumb.style.cssText='display:flex;align-items:center;gap:5px;margin-bottom:1rem;flex-wrap:wrap';
+    ['ML!PA Integrated Management System','Records','Templates'].forEach(function(part,i){
+      if(i>0){
+        const sep=document.createElement('span');
+        sep.style.cssText='color:#94A3B8;font-size:13px;font-weight:400';
+        sep.textContent='›';
+        breadcrumb.appendChild(sep);
+      }
+      const chip=document.createElement('span');
+      chip.style.cssText='background:'+(i===2?'var(--blue)':'var(--blue-pale)')+';color:'+(i===2?'white':'var(--blue)')+';font-size:11.5px;font-weight:600;padding:3px 10px;border-radius:4px;white-space:nowrap';
+      chip.textContent=part;
+      breadcrumb.appendChild(chip);
+    });
+    const pathWrap=document.createElement('div');
+    pathWrap.style.cssText='margin-bottom:1rem';
+    const pathLbl=document.createElement('div');
+    pathLbl.style.cssText='font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#94A3B8;margin-bottom:6px';
+    pathLbl.textContent=pathLabel;
+    pathWrap.appendChild(pathLbl);
+    pathWrap.appendChild(breadcrumb);
+    c.appendChild(pathWrap);
+    // 8D steps grid
+    const grid=document.createElement('div');
+    grid.className='eightd-grid';
+    (u.eightd||[]).forEach(function(d){
+      const item2=document.createElement('div');
+      item2.className='eightd-item';
+      item2.innerHTML='<div class="eightd-d">'+d.d+'</div><div class="eightd-content"><div class="eightd-title">'+d.title+'</div><div class="eightd-desc">'+d.desc+'</div></div>';
+      grid.appendChild(item2);
+    });
+    c.appendChild(grid);
+  }
+  else if(item.t==='docCosts'){
+    const g=document.createElement('div');g.className='doc-cost-cards';
+    const dcColors=['#E8192C','#D97706','#1B3FA0'];
+    const docSvgIds={'doc-pause':'ico-doc-pause','doc-repeat':'ico-doc-repeat','doc-outdated':'ico-doc-outdated'};
+    (u.docCosts||[]).forEach((d,di)=>{
+      const col=dcColors[di%dcColors.length];
+      const card=document.createElement('div');card.className='doc-cost-card';
+      card.style.borderTopColor=col;
+      const svgId=docSvgIds[d.icon];
+      const iconHtml=svgId
+        ?`<div style="width:40px;height:40px;border-radius:50%;background:${col}14;border:2px solid ${col}33;display:flex;align-items:center;justify-content:center;margin-bottom:.5rem"><svg width="20" height="20" fill="none" stroke="${col}" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><use href="#${svgId}"/></svg></div>`
+        :`<div style="width:40px;height:40px;border-radius:50%;background:${col}14;border:2px solid ${col}33;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:.5rem">${d.icon}</div>`;
+      card.innerHTML=iconHtml+`<div class="doc-cost-title">${d.title}</div><div class="doc-cost-story">${d.story}</div><div class="doc-cost-impact">→ ${d.impact}</div>`;
+      g.appendChild(card);
+    });c.appendChild(g);
+  }
+  else if(item.t==='story'){
+    const s=(u.stories||[])[item.idx];if(!s)return;
+    const card=document.createElement('div');card.className='story-card';
+    const cardId='story-body-'+item.idx;
+    const becauseLabel=window._becauseLabel||'Because:';
+    const whysHtml=(s.whys||[]).map((w,i)=>{
+      const isLast=w.rc;
+      const numLabel=isLast?(window._storyRootCauseLabel||'⚠ Root cause'):(window._storyWhyLabel||'Why ')+(i+1);
+      const arrow=isLast?'':`<div class="why-arrow">↓</div>`;
+      return `<div class="why-item${isLast?' root':''}">
+        <div class="why-question">
+          <span class="why-num${isLast?' root-num':''}">${numLabel}</span>
+          <span class="why-q-text">${w.q}</span>
+        </div>
+        <div class="why-because">
+          <span class="why-because-label">${isLast?'↳':'${becauseLabel}'}</span>
+          <span class="why-because-text">${w.a}</span>
+        </div>
+      </div>${arrow}`.replace('${becauseLabel}',becauseLabel);
+    }).join('');
+    card.innerHTML=`
+      <div class="story-card-header neutral" onclick="toggleStory('${cardId}',this)">
+        <span class="story-card-title">${s.title}</span>
+        <span class="story-card-badge">${s.badge}</span>
+        <span class="story-chevron" id="chev-${item.idx}">▼</span>
+      </div>
+      <div class="story-body" id="${cardId}">
+        <div class="story-phase-grid">
+          <div class="story-phase">
+            <div class="story-phase-label">${window._storyWhatHappened||'What happened'}</div>${s.bad}
+          </div>
+          <div class="story-phase">
+            <div class="story-phase-label">${window._storyImmediate||'Immediate actions'}</div>${s.immediate}
+          </div>
+          <div class="story-phase fix">
+            <div class="story-phase-label">${window._storyCA||'Corrective actions & evidence'}</div>${s.fix} ${s.acceptance}
+          </div>
+        </div>
+        <div class="story-whys">
+          <div class="story-whys-title">${window._storyWhysTitle||'5 Whys'}</div>
+          <div class="why-chain">${whysHtml}</div>
+        </div>
+        <div class="story-lesson">
+          <div class="story-lesson-label">${window._storyLesson||'The lesson'}</div>
+          <div class="story-lesson-text">${s.lesson}</div>
+        </div>
+      </div>`;
+    c.appendChild(card);
+  }
+  else if(item.t==='finalQuiz'){
+    const u2=C[lang];
+    const hasLink=QUIZ_LINK&&QUIZ_LINK.length>0;
+    const div=document.createElement('div');div.className='final-quiz';
+    const btn=hasLink?`<a class="final-quiz-btn" href="${QUIZ_LINK}" target="_blank">→ ${u2.finalQuizLabel}</a>`:`<span class="final-quiz-btn disabled">→ ${u2.finalQuizLabel}</span>`;
+    div.innerHTML=`<div class="final-quiz-text"><h3>${u2.finalQuizLabel}</h3><p>${u2.finalQuizSub}</p></div>${btn}`;
+    c.appendChild(div);
+  }
+}
+
+function toggleStory(id,header){
+  const body=document.getElementById(id);
+  const chevId='chev-'+id.replace('story-body-','');
+  const chev=document.getElementById(chevId);
+  const isOpen=body.classList.contains('open');
+  body.classList.toggle('open',!isOpen);
+  if(chev)chev.classList.toggle('open',!isOpen);
+}
+
+renderAll();
+</script>
+</body>
+</html>
